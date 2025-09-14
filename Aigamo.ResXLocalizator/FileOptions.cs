@@ -1,6 +1,8 @@
-using Microsoft.CodeAnalysis.Diagnostics;
+﻿using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Aigamo.ResXGenerator;
+namespace Aigamo.ResXLocalizator;
+
+internal sealed class IsExternalInit { }
 
 public readonly record struct FileOptions
 {

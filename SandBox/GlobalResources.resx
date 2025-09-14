@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateDate" xml:space="preserve">
-    <value>OldestEnUs</value>
+  <data name="REQ003Description" xml:space="preserve">
+    <value>Utiliser l'extension BetweenOr ou BetweenAnd à la place</value>
   </data>
-  <data name="CreateDateDescending" xml:space="preserve">
-    <value>NewestEnUs</value>
+  <data name="REQ001Description" xml:space="preserve">
+    <value>Utiliser Requires.NotNull au lieu d'une comparaison avec null.</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>test</value>
+  <data name="REQ002Description" xml:space="preserve">
+    <value>Ne pas comparer des valeurs doubles directement</value>
   </data>
 </root>

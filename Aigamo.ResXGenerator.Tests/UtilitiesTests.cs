@@ -1,15 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Xunit;
 
 namespace Aigamo.ResXGenerator.Tests;
 
 public class UtilitiesTests
 {
-
-
 	[Theory]
 	[InlineData("Valid", "Valid")]
 	[InlineData("_Valid", "_Valid")]
@@ -37,5 +32,4 @@ public class UtilitiesTests
 	{
 		Utilities.SanitizeNamespace(input, false).Should().Be(expected);
 	}
-
 }
