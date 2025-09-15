@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Aigamo.ResXGenerator.Tools;
+using FluentAssertions;
 using Xunit;
 using static System.Guid;
 
@@ -11,20 +12,18 @@ public class GroupResxFilesTests
 	{
 		var v1 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 			@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-		new[]
-		{
-			new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-			new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-		});
+			[
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27"))
+			]);
 
 		var v2 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-			new[]
-			{
+			[
 
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-			}
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099"))
+			]
 		);
 		v1.Should().Be(v2);
 	}
@@ -34,20 +33,17 @@ public class GroupResxFilesTests
 	{
 		var v1 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-			new[]
-			{
+			[
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.en.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.fr.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-			});
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.fr.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27"))
+			]);
 
 		var v2 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-			new[]
-			{
-
+			[
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.de.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.ro.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-			}
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.ro.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099"))
+			]
 		);
 		v1.Should().NotBe(v2);
 	}
@@ -57,20 +53,17 @@ public class GroupResxFilesTests
 	{
 		var v1 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-			new[]
-			{
+			[
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("771F9C76-D9F4-4AF4-95D2-B3426F9EC15A")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-			});
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27"))
+			]);
 
 		var v2 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-			new[]
-			{
-
+			[
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-			}
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099"))
+			]
 		);
 		v1.Should().NotBe(v2);
 	}
@@ -80,26 +73,24 @@ public class GroupResxFilesTests
 	{
 		var v1 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("47FFD75C-3254-4851-8E1C-CBDDCDCE1D9B")),
-			new[]
-			{
+			[
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-			});
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27"))
+			]);
 
 		var v2 = new GroupedAdditionalFile(new AdditionalTextWithHash(new AdditionalTextStub(
 				@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("A7E92264-8047-4668-979F-6EFC14EBAFC5")),
-			new[]
-			{
+			[
 
 				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("5B2BA95C-FB9C-47C5-9C03-280B63D8DD27")),
-				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099")),
-			}
+				new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("B7EDA261-6923-4526-AFB7-B2A64984F099"))
+			]
 		);
 		v1.Should().NotBe(v2);
 	}
 
 	static readonly (string Path, Guid Hash)[] s_data =
-	{
+	[
 		(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx", Parse("00000000-0000-0000-0000-000000000001")),
 		(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx", Parse("00000000-0000-0000-0000-000000000002")),
 		(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx", Parse("00000000-0000-0000-0000-000000000003")),
@@ -133,52 +124,52 @@ public class GroupResxFilesTests
 		(@"D:\src\xhg\y\Areas\QxModule\QtrController.zh-cn.resx", Parse("00000000-0000-0000-0000-000000000031")),
 		(@"D:\src\xhg\y\DataAnnotations\DataAnnotation.da.resx", Parse("00000000-0000-0000-0000-000000000032")),
 		(@"D:\src\xhg\y\DataAnnotations\DataAnnotation.resx", Parse("00000000-0000-0000-0000-000000000033")),
-		(@"D:\src\xhg\y\DataAnnotations\DataAnnotation2.resx", Parse("00000000-0000-0000-0000-000000000034")),
-	};
+		(@"D:\src\xhg\y\DataAnnotations\DataAnnotation2.resx", Parse("00000000-0000-0000-0000-000000000034"))
+	];
 
 	[Fact]
 	public void FileGrouping()
 	{
-		var result = GroupResxFiles.Group(s_data.Select(x => new AdditionalTextWithHash(new AdditionalTextStub(x.Path), x.Hash)).OrderBy(x => NewGuid()).ToArray());
+		var result = GroupResxFiles.Group(s_data.Select(x => new AdditionalTextWithHash(new AdditionalTextStub(x.Path), x.Hash)).OrderBy(_ => NewGuid()).ToArray());
 
 		var testData = new List<GroupedAdditionalFile>
 		{
-			new GroupedAdditionalFile(
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.resx"), Parse("00000000-0000-0000-0000-000000000002")),
-				subFiles: new[]
-				{
+				subFiles:
+				[
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.da.resx"), Parse("00000000-0000-0000-0000-000000000001")),
-					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("00000000-0000-0000-0000-000000000003")),
-				}
+					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgControlCenter.vi.resx"), Parse("00000000-0000-0000-0000-000000000003"))
+				]
 			),
-			new GroupedAdditionalFile(
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgLive.resx"), Parse("00000000-0000-0000-0000-000000000005")),
-				subFiles: new[]
-				{
+				subFiles:
+				[
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgLive.da.resx"), Parse("00000000-0000-0000-0000-000000000004")),
-					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgLive.vi.resx"), Parse("00000000-0000-0000-0000-000000000006")),
-				}
+					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\CaModule\Pages\IdfgLive.vi.resx"), Parse("00000000-0000-0000-0000-000000000006"))
+				]
 			),
-			new GroupedAdditionalFile(
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\Identity\Pages\Login.resx"), Parse("00000000-0000-0000-0000-000000000008")),
-				subFiles: new[]
-				{
+				subFiles:
+				[
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\Identity\Pages\Login.da.resx"), Parse("00000000-0000-0000-0000-000000000007")),
-					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\Identity\Pages\Login.vi.resx"), Parse("00000000-0000-0000-0000-000000000009")),
-				}
+					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\Identity\Pages\Login.vi.resx"), Parse("00000000-0000-0000-0000-000000000009"))
+				]
 			),
-			new GroupedAdditionalFile(
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\Pages\QasdLogon.resx"), Parse("00000000-0000-0000-0000-000000000011")),
-				subFiles: new[]
-				{
+				subFiles:
+				[
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\Pages\QasdLogon.da.resx"), Parse("00000000-0000-0000-0000-000000000010")),
-					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\Pages\QasdLogon.vi.resx"), Parse("00000000-0000-0000-0000-000000000012")),
-				}
+					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\Pages\QasdLogon.vi.resx"), Parse("00000000-0000-0000-0000-000000000012"))
+				]
 			),
-			new GroupedAdditionalFile(
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.resx"), Parse("00000000-0000-0000-0000-000000000026")),
-				subFiles: new[]
-				{
+				subFiles:
+				[
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.cs-cz.resx"), Parse("00000000-0000-0000-0000-000000000013")),
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.da.resx"), Parse("00000000-0000-0000-0000-000000000014")),
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.de.resx"), Parse("00000000-0000-0000-0000-000000000015")),
@@ -196,43 +187,38 @@ public class GroupResxFilesTests
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.sv.resx"), Parse("00000000-0000-0000-0000-000000000028")),
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.tr.resx"), Parse("00000000-0000-0000-0000-000000000029")),
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.vi.resx"), Parse("00000000-0000-0000-0000-000000000030")),
-					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.zh-cn.resx"), Parse("00000000-0000-0000-0000-000000000031")),
-				}),
-			new GroupedAdditionalFile(
+					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\Areas\QxModule\QtrController.zh-cn.resx"), Parse("00000000-0000-0000-0000-000000000031"))
+				]),
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\DataAnnotations\DataAnnotation.resx"), Parse("00000000-0000-0000-0000-000000000033")),
-				subFiles: new[]
-				{
+				subFiles:
+				[
 					new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\DataAnnotations\DataAnnotation.da.resx"), Parse("00000000-0000-0000-0000-000000000032"))
-				}
+				]
 			),
-			new GroupedAdditionalFile(
+			new(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(@"D:\src\xhg\y\DataAnnotations\DataAnnotation2.resx"), Parse("00000000-0000-0000-0000-000000000034")),
-				subFiles: Array.Empty<AdditionalTextWithHash>()
+				subFiles: []
 			)
 		};
 		var resAsList = result.ToList();
 		resAsList.Count.Should().Be(testData.Count);
-		foreach (var groupedAdditionalFile in testData)
-		{
-			resAsList.Should().Contain(groupedAdditionalFile);
-		}
+		testData.ForEach(groupedAdditionalFile => resAsList.Should().Contain(groupedAdditionalFile));
 	}
 
 	[Fact]
 	public void ResxGrouping()
 	{
-		var result = GroupResxFiles.DetectChildCombos(GroupResxFiles.Group(s_data.Select(x => new AdditionalTextWithHash(new AdditionalTextStub(x.Path), NewGuid())).OrderBy(x => NewGuid()).ToArray()).ToArray()).ToList();
+		var result = GroupResxFiles.DetectChildCombos(GroupResxFiles.Group(s_data.Select(x => new AdditionalTextWithHash(new AdditionalTextStub(x.Path), NewGuid())).OrderBy(_ => NewGuid()).ToArray()).ToArray()).ToList();
 		var expected = new List<CultureInfoCombo>
 		{
-			new CultureInfoCombo(new[]
-			{
+			new([
 				new AdditionalTextWithHash(new AdditionalTextStub("test.da.resx"), NewGuid()),
 				new AdditionalTextWithHash(new AdditionalTextStub("test.vi.resx"), NewGuid())
-			}),
-			new CultureInfoCombo(new[]{ new AdditionalTextWithHash(new AdditionalTextStub("test.da.resx"), NewGuid())}),
-			new CultureInfoCombo(Array.Empty<AdditionalTextWithHash>()),
-			new CultureInfoCombo(new[]
-			{
+			]),
+			new([new AdditionalTextWithHash(new AdditionalTextStub("test.da.resx"), NewGuid())]),
+			new([]),
+			new([
 				new AdditionalTextWithHash(new AdditionalTextStub("test.cs-cz.resx"), NewGuid()),
 				new AdditionalTextWithHash(new AdditionalTextStub("test.da.resx"), NewGuid()),
 				new AdditionalTextWithHash(new AdditionalTextStub("test.de.resx"), NewGuid()),
@@ -250,8 +236,8 @@ public class GroupResxFilesTests
 				new AdditionalTextWithHash(new AdditionalTextStub("test.sv.resx"), NewGuid()),
 				new AdditionalTextWithHash(new AdditionalTextStub("test.tr.resx"), NewGuid()),
 				new AdditionalTextWithHash(new AdditionalTextStub("test.vi.resx"), NewGuid()),
-				new AdditionalTextWithHash(new AdditionalTextStub("test.zh-cn.resx"), NewGuid()),
-			}),
+				new AdditionalTextWithHash(new AdditionalTextStub("test.zh-cn.resx"), NewGuid())
+			]),
 		};
 		result.Count.Should().Be(expected.Count);
 		result.Should().BeEquivalentTo(expected);

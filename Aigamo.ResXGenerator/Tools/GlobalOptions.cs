@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.Diagnostics;
+﻿using Aigamo.ResXGenerator.Tools;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Aigamo.ResXGenerator;
 
@@ -38,6 +39,7 @@ public sealed record GlobalOptions // this must be a record or implement IEquata
 		{
 			IsValid = false;
 		}
+
 		ProjectName = projectName!;
 
 		// Code from: https://github.com/dotnet/roslyn/blob/main/docs/features/source-generators.cookbook.md#consume-msbuild-properties-and-metadata

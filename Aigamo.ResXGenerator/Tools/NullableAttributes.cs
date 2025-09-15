@@ -6,7 +6,12 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-namespace System.Diagnostics.CodeAnalysis
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Aigamo.ResXGenerator.Tools;
+
+namespace Aigamo.ResXGenerator.Tools
 {
 #if NETSTANDARD2_0 ||  NETCOREAPP2_0 ||  NETCOREAPP2_1 ||  NETCOREAPP2_2 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472 || NET48
     /// <summary>Specifies that null is allowed as an input even if the corresponding type disallows it.</summary>

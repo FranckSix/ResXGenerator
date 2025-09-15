@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using Aigamo.ResXGenerator.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Aigamo.ResXGenerator;

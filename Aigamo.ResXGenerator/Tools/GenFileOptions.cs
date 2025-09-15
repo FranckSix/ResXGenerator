@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Aigamo.ResXGenerator;
+namespace Aigamo.ResXGenerator.Tools;
 
-public readonly record struct FileOptions
+public readonly record struct GenFileOptions
 {
 	public string InnerClassInstanceName { get; init; }
 	public string InnerClassName { get; init; }
@@ -21,7 +21,7 @@ public readonly record struct FileOptions
 	public bool SkipFile { get; init; }
 	public bool IsValid { get; init; }
 
-	public FileOptions(
+	public GenFileOptions(
 		GroupedAdditionalFile groupedFile,
 		AnalyzerConfigOptions options,
 		GlobalOptions globalOptions
@@ -142,13 +142,13 @@ public readonly record struct FileOptions
 		IsValid = globalOptions.IsValid;
 	}
 
-	public static FileOptions Select(
+	public static GenFileOptions Select(
 		GroupedAdditionalFile file,
 		AnalyzerConfigOptionsProvider options,
 		GlobalOptions globalOptions
 	)
 	{
-		return new FileOptions(
+		return new GenFileOptions(
 			groupedFile: file,
 			options: options.GetOptions(file.MainFile.File),
 			globalOptions: globalOptions

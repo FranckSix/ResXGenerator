@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Aigamo.ResXGenerator.Tools;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -84,7 +85,7 @@ public class SettingsTests
 	[Fact]
 	public void FileDefaults()
 	{
-		var fileOptions = FileOptions.Select(
+		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub("Path1.resx"), Guid.NewGuid()),
 				subFiles: Array.Empty<AdditionalTextWithHash>()
@@ -131,7 +132,7 @@ public class SettingsTests
 		string expectedEmbeddedFilename
 	)
 	{
-		var fileOptions = FileOptions.Select(
+		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub(mainFile), Guid.NewGuid()),
 				subFiles: Array.Empty<AdditionalTextWithHash>()
@@ -173,7 +174,7 @@ public class SettingsTests
 	[Fact]
 	public void File_PostFix()
 	{
-		var fileOptions = FileOptions.Select(
+		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub("Path1.resx"), Guid.NewGuid()),
 				subFiles: Array.Empty<AdditionalTextWithHash>()
@@ -191,7 +192,7 @@ public class SettingsTests
 	[Fact]
 	public void FileSettings_CanReadAll()
 	{
-		var fileOptions = FileOptions.Select(
+		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub("Path1.resx"), Guid.NewGuid()),
 				subFiles: Array.Empty<AdditionalTextWithHash>()
@@ -255,7 +256,7 @@ public class SettingsTests
 			),
 			token: default
 		);
-		var fileOptions = FileOptions.Select(
+		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub("Path1.resx"), Guid.NewGuid()),
 				subFiles: Array.Empty<AdditionalTextWithHash>()
@@ -285,7 +286,7 @@ public class SettingsTests
 	[Fact]
 	public void FileSettings_CanSkipIndividualFile()
 	{
-		var fileOptions = FileOptions.Select(
+		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
 				mainFile: new AdditionalTextWithHash(new AdditionalTextStub("Path1.resx"), Guid.NewGuid()),
 				subFiles: Array.Empty<AdditionalTextWithHash>()

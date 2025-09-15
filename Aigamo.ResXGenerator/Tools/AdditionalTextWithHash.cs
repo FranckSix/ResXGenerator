@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace Aigamo.ResXGenerator;
+namespace Aigamo.ResXGenerator.Tools;
 
 public readonly record struct AdditionalTextWithHash(AdditionalText File, Guid Hash)
 {
@@ -13,7 +13,7 @@ public readonly record struct AdditionalTextWithHash(AdditionalText File, Guid H
 	{
 		unchecked
 		{
-			return (File.GetHashCode() * 397) ^ Hash.GetHashCode();
+			return File.GetHashCode() * 397 ^ Hash.GetHashCode();
 		}
 	}
 

@@ -1,11 +1,15 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Aigamo.ResXGenerator.Extensions;
+using Aigamo.ResXGenerator.Generators;
+using Aigamo.ResXGenerator.Tools;
+using Microsoft.CodeAnalysis;
 
 namespace Aigamo.ResXGenerator;
 
 [Generator]
 public class SourceGenerator : IIncrementalGenerator
 {
-	private static readonly IGenerator s_generator = new StringBuilderGenerator();
+	private IComboGenerator ComboGenerator { get; } = new ComboGenerator();
+	private IResXGenerator ResXGenerator { get; } = new ResourceManagerGenerator();
 
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
@@ -20,36 +24,50 @@ public class SourceGenerator : IIncrementalGenerator
 		var inputs = monitor
 			.Combine(globalOptions)
 			.Combine(context.AnalyzerConfigOptionsProvider)
-			.Select(static (x, _) => FileOptions.Select(
+			.Select(static (x, _) => GenFileOptions.Select(
 				file: x.Left.Left,
 				options: x.Right,
 				globalOptions: x.Left.Right
 			))
-			.Where(static x => x.IsValid && !x.SkipFile);
+			.Where(static x => x is { IsValid: true, SkipFile: false });
 
-		context.RegisterSourceOutput(inputs, (ctx, file) =>
-		{
-			var (generatedFileName, sourceCode, errorsAndWarnings) =
-				s_generator.Generate(file, ctx.CancellationToken);
-			foreach (var sourceErrorsAndWarning in errorsAndWarnings)
-			{
-				ctx.ReportDiagnostic(sourceErrorsAndWarning);
-			}
+		GenerateResXFiles(context, inputs);
+		GenerateResxCombos(context, monitor);
+	}
 
-			ctx.AddSource(generatedFileName, sourceCode);
-		});
-
+	private void GenerateResxCombos(IncrementalGeneratorInitializationContext context, IncrementalValuesProvider<GroupedAdditionalFile> monitor)
+	{
 		var detectAllCombosOfResx = monitor.Collect().SelectMany((x, _) => GroupResxFiles.DetectChildCombos(x));
 		context.RegisterSourceOutput(detectAllCombosOfResx, (ctx, combo) =>
 		{
-			var (generatedFileName, sourceCode, errorsAndWarnings) =
-				s_generator.Generate(combo, ctx.CancellationToken);
-			foreach (var sourceErrorsAndWarning in errorsAndWarnings)
+			try
 			{
-				ctx.ReportDiagnostic(sourceErrorsAndWarning);
+				var output = ComboGenerator.Generate(combo, ctx.CancellationToken);
+				output.ErrorsAndWarnings.ForEach(ctx.ReportDiagnostic);
+				ctx.AddSource(output.FileName, output.SourceCode);
+			}
+			catch (Exception e)
+			{
+				ctx.ReportDiagnostic(Diagnostic.Create(Rules.FatalError(ComboGenerator.GeneratedFileName(combo), e), Location.None));
+			}
+		});
+	}
+
+	private void GenerateResXFiles(IncrementalGeneratorInitializationContext context, IncrementalValuesProvider<GenFileOptions> inputs)
+	{
+		context.RegisterSourceOutput(inputs, (ctx, file) =>
+		{
+			try
+			{
+				var output = ResXGenerator.Generate(file, ctx.CancellationToken);
+				output.ErrorsAndWarnings.ForEach(ctx.ReportDiagnostic);
+				ctx.AddSource(output.FileName, output.SourceCode);
+			}
+			catch (Exception e)
+			{
+				ctx.ReportDiagnostic(Diagnostic.Create(Rules.FatalError(file.ClassName, e), Location.None));
 			}
 
-			ctx.AddSource(generatedFileName, sourceCode);
 		});
 	}
 }
