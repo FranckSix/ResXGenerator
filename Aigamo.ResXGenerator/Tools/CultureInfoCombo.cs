@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Aigamo.ResXGenerator.Models;
 using Aigamo.ResXGenerator.Tools;
 
 namespace Aigamo.ResXGenerator;
@@ -20,9 +21,9 @@ public readonly record struct CultureInfoCombo
 
 	public IReadOnlyList<(string Iso, AdditionalTextWithHash File)> CultureInfos { get;}
 
-	public IReadOnlyList<(string Name, int LCID, AdditionalTextWithHash FileWithHash)> GetDefinedLanguages() => CultureInfos?
+	public IReadOnlyList<ComboItem> GetDefinedLanguages() => CultureInfos?
 		.Select(x => (x.File, new CultureInfo(x.Iso)))
-		.Select(x => (Name: x.Item2.Name.Replace('-', '_'), x.Item2.LCID, x.File))
+		.Select(x => new ComboItem(x.Item2.Name.Replace('-', '_'), x.Item2.LCID, x.File))
 		.ToList() ?? [];
 
 	public bool Equals(CultureInfoCombo other)

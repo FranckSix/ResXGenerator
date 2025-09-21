@@ -19,4 +19,5 @@ internal static class Constants
 	public const string SResourceManagerVariable = "s_resourceManager";
 	public const string ResourceManagerVariable = "ResourceManager";
 	public const string CultureInfoVariable = "CultureInfo";
+	public const int IndentCount = 4;
 }

@@ -68,7 +68,66 @@ namespace Resources
 
 -   The generator can now generate code to lookup translations instead of using the 20 year old System.Resources.ResourceManager
 
+## New in version 4
+-   The generator now include support for IStringLocalizer and static method to register in IServiceCollection (no more need of "magic string" :blush:
+```c#
+var local = provider.GetService<IArtistCategoriesNames>();
+local.Actor // return the value string
+```
+
+or
+
+```c#
+var myViewModel = provider.GetService<IMyViewModel>();
+
+public class MyViewModel(IArtistCategoriesNames resources) : IMyViewModel
+{
+    public string Value => resources.Actor // retur also the value string
+}
+```
+
 ## Options
+
+<a name="GenerationType"></a>
+### GenerationType (per file or globally)
+Use cases: https://github.com/ycanardeau/ResXGenerator/issues/6.
+
+Because the dependency injection on somes frameworks like Blazor. Uses the IStringLocalizer to get resources string. And to keep actual functionality. It now possible to choose the gerneration type by setting 'GenerationType'.
+
+This paramerter is optional The default value is 'ResourceManager' to keep the actual behavior by default.
+
+AllowedValues :
+-   ResourceManager
+    - When this option choosen the generator will use the classic [System.Resources.ResourceManager](https://learn.microsoft.com/en-us/dotnet/api/system.resources.resourcemanager?view=net-9.0) to get resources string.
+-   CodeGeneration (You can chose this option to replace the GenerateCode option)
+    - When this option choosen the generator will generate code to get resources string. See [Generate Code](#Generate-Code) for more details))
+-	StringLocalizer
+    - When this option choosen the generator will generate interface and class to use with [Microsoft.Extensions.Localization](https://docs.microsoft.com/en-us/dotnet/core/extensions/localization) `IStringLocalizer<T>`. To see how to use it see [Using IStringLocalizer](#IStringLocalizer)
+-	SameAsOuter
+    - When this option choosen the generator will use the same generation type as the outer class if any. If no outer class exist it will fallback to 'ResourceManager'.
+```xml
+<ItemGroup>
+    <EmbeddedResource Update="Resources\ArtistCategoriesNames.resx">
+        <GenerationType>StringLocalizer</GenerationType>
+    </EmbeddedResource>
+</ItemGroup>
+```
+
+or
+
+```xml
+<ItemGroup>
+  <EmbeddedResource Update="Resources\ArtistCategoriesNames.resx" GenerationType="StringLocalizer" />
+</ItemGroup>
+```
+
+If you want to apply this globally, use
+
+```xml
+<PropertyGroup>
+  <ResXGenerator_GenerationType>StringLocalizer</ResXGenerator_GenerationType>
+</PropertyGroup>
+```
 
 ### PublicClass (per file or globally)
 
@@ -146,7 +205,7 @@ With global non-static class you can also reset `StaticClass` per file by settin
 
 ### Partial classes (per file or globally)
 
-To extend an existing class, you can make your classes partial.
+To extend an existing class, you can make your classes partial. *Not suitable for StringLocalizer*.
 
 ```xml
 <ItemGroup>
@@ -166,7 +225,7 @@ or globally
 
 ### Static Members (per file or globally)
 
-In some rare cases it might be useful for the members to be non-static.
+In some rare cases it might be useful for the members to be non-static. *Not suitable for StringLocalizer*.
 
 ```xml
 <ItemGroup>
@@ -217,7 +276,7 @@ or just the postfix globally
 
 ## Inner classes (per file or globally)
 
-If your resx files are organized along with code files, it can be quite useful to ensure that the resources are not accessible outside the specific class the resx file belong to.
+If your resx files are organized along with code files, it can be quite useful to ensure that the resources are not accessible outside the specific class the resx file belong to. *Not suitable for StringLocalizer*
 
 ```xml
 <ItemGroup>
@@ -362,6 +421,7 @@ or globally
 
 For brevity, settings to make everything non-static is omitted.
 
+<a name="Generate-Code"></a>
 ### Generate Code (per file or globally)
 
 By default the ancient `System.Resources.ResourceManager` is used.
@@ -492,9 +552,41 @@ Alternatively it can be set with the attribute `SkipFile="true"`.
 
 ```xml
 <ItemGroup>
-	<EmbeddedResource Update="ExcludedFile.resx" SkipFile="true" />
+    <EmbeddedResource Update="ExcludedFile.resx" SkipFile="true" />
 </ItemGroup>
 ```
+
+<a name="IStringLocalizer"></a>
+## Using IStringLocalizer
+
+To enablethe génération of interface and classes for your resource yo need to set de GenerationType to [StringLocalizer](#GenerationType). Note to use this you need to ensure you reference nuget on your project.
+- [Microsoft.Extensions.DependencyInjection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection)
+- [Microsoft.Extensions.Localization](https://www.nuget.org/packages/Microsoft.Extensions.Localization)
+- [Microsoft.Extensions.Logging](https://www.nuget.org/packages/Microsoft.Extensions.Logging)
+
+Now yous can register singletons for resources, simply using extension methods.
+
+Examples for a file ArtistCategoriesNames.resx :
+```c#
+using ResXGenerator.Registration;
+
+builder.Services
+   .AddLogging();
+   .AddLocalization()
+   .UsingResXGenerator(); //This will register all resx class in one line of code
+```
+
+you can also (if you prefer to load ressources by namespace using individual registrations). A class of registration is created by namespace.
+```c#
+using MyResourceAssembly;
+
+builder.Services
+   .AddLogging();
+   .AddLocalization()
+   .UsingArtistCategoriesNamesResX(); //This will register all resx class of the namespace in one line of code
+```
+
+Now simply use the dependency injection to get your resources classes. All interface is in the same namespase as it's resource file. (or configured namespace)
 
 ## References
 

@@ -17,6 +17,7 @@ public readonly record struct GenFileOptions
 	public string? CustomToolNamespace { get; init; }
 	public string LocalNamespace { get; init; }
 	public bool GenerateCode { get; init; }
+	public GenerationType GenerationType { get; init; }
 	public string EmbeddedFilename { get; init; }
 	public bool SkipFile { get; init; }
 	public bool IsValid { get; init; }
@@ -129,6 +130,16 @@ public readonly record struct GenFileOptions
 		)
 		{
 			GenerateCode = genCodeSwitch.Equals("true", StringComparison.OrdinalIgnoreCase);
+		}
+
+		GenerationType = globalOptions.GenerationType;
+		if (
+			options.TryGetValue("build_metadata.EmbeddedResource.GenerationType", out var generationTypeSwitch) &&
+			Enum.TryParse(generationTypeSwitch, true, out GenerationType g) &&
+			g != GenerationType.SameAsOuter
+		)
+		{
+			GenerationType = g;
 		}
 
 		if (

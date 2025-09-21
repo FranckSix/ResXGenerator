@@ -1,82 +1,83 @@
 ﻿using System.Globalization;
 using Aigamo.ResXGenerator.Extensions;
+using Aigamo.ResXGenerator.Models;
 using Aigamo.ResXGenerator.Tools;
+#nullable disable
 
 namespace Aigamo.ResXGenerator.Generators;
 
-public sealed class ComboGenerator : StringBuilderGenerator<CultureInfoCombo>, IComboGenerator
+public sealed class ComboGenerator : GeneratorBase<CultureInfoCombo>, IComboGenerator
 {
-	private const string OutputStringFilenameFormat = "Aigamo.ResXGenerator.{0}.g.cs";
-	private static readonly Dictionary<int, List<int>> s_allChildren = new();
+    private const string OutputStringFilenameFormat = "Aigamo.ResXGenerator.{0}.g.cs";
+    private static readonly Dictionary<int, List<int>> s_allChildren = new();
+    private StringBuilderGeneratorHelper Helper { get; set; }
 
-	/// <summary>
-	/// Build all CultureInfo children
-	/// </summary>
-	static ComboGenerator()
-	{
-		var all = CultureInfo.GetCultures(CultureTypes.AllCultures);
+    /// <summary>
+    /// Build all CultureInfo children
+    /// </summary>
+    static ComboGenerator()
+    {
+        var all = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
-		all.ForEach(cultureInfo =>
-		{
-			if (cultureInfo.LCID == 4096 || cultureInfo.IsNeutralCulture || cultureInfo.Name.IsNullOrEmpty())
-				return;
+        all.ForEach(cultureInfo =>
+        {
+            if (cultureInfo.LCID == 4096 || cultureInfo.IsNeutralCulture || cultureInfo.Name.IsNullOrEmpty())
+                return;
 
-			var parent = cultureInfo.Parent;
-			if (!s_allChildren.TryGetValue(parent.LCID, out var v))
-				s_allChildren[parent.LCID] = v = [];
-			v.Add(cultureInfo.LCID);
-		});
-	}
+            var parent = cultureInfo.Parent;
+            if (!s_allChildren.TryGetValue(parent.LCID, out var v))
+                s_allChildren[parent.LCID] = v = [];
+            v.Add(cultureInfo.LCID);
+        });
+    }
 
-	public override GeneratedOutput Generate(CultureInfoCombo options, CancellationToken cancellationToken = default)
-	{
-		var definedLanguages = options.GetDefinedLanguages();
-		var builder = GetBuilder("Aigamo.ResXGenerator");
+    public override GeneratedOutput Generate(CultureInfoCombo options, CancellationToken cancellationToken = default)
+    {
+        Init(options);
+        Helper = new StringBuilderGeneratorHelper();
 
-		builder.AppendLine("internal static partial class Helpers");
-		builder.AppendLine("{");
+        var definedLanguages = Options.GetDefinedLanguages();
 
-		builder.Append("    public static string GetString_");
-		var functionNamePostFix = FunctionNamePostFix(definedLanguages);
-		builder.Append(functionNamePostFix);
-		builder.Append("(string fallback");
-		definedLanguages.ForEach((name, _, _) =>
-		{
-			builder.Append(", ");
-			builder.Append("string ");
-			builder.Append(name);
-		});
+        Helper.AppendHeader("Aigamo.ResXGenerator");
 
-		builder.Append(") => ");
-		builder.Append(Constants.SystemGlobalization);
-		builder.AppendLine(".CultureInfo.CurrentUICulture.LCID switch");
-		builder.AppendLine("    {");
-		var already = new HashSet<int>();
-		definedLanguages.ForEach((name, lcid, _) =>
-		{
-			var findParents = FindParents(lcid).Except(already).ToList();
-			findParents
-				.Select(parent =>
-				{
-					already.Add(parent);
-					return $"        {parent} => {name.Replace('-', '_')},";
-				})
-				.ForEach(l => builder.AppendLine(l));
-		});
+        Helper.AppendLine("internal static partial class Helpers");
+        Helper.AppendLine("{");
 
-		builder.AppendLine("        _ => fallback");
-		builder.AppendLine("    };");
-		builder.AppendLine("}");
+        Helper.Append("    public static string GetString_");
+        var functionNamePostFix = Helper.AppendLanguages(definedLanguages);
+        Helper.Append("(string fallback");
+        definedLanguages.ForEach(ci =>
+        {
+            Helper.Append(", ");
+            Helper.Append("string ");
+            Helper.Append(ci.Name);
+        });
 
-		return new GeneratedOutput(string.Format(OutputStringFilenameFormat, functionNamePostFix), builder.ToString());
-	}
+        GeneratedFileName = string.Format(OutputStringFilenameFormat, functionNamePostFix);
 
-	public string GeneratedFileName(CultureInfoCombo combo)
-	{
-		var definedLanguages = combo.GetDefinedLanguages();
-		var functionNamePostFix = FunctionNamePostFix(definedLanguages);
-		return string.Format(OutputStringFilenameFormat, functionNamePostFix) ;
-	}
+        Helper.Append(") => ");
+        Helper.Append(Constants.SystemGlobalization);
+        Helper.AppendLine(".CultureInfo.CurrentUICulture.LCID switch");
+        Helper.AppendLine("    {");
+        var already = new HashSet<int>();
+        definedLanguages.ForEach(ci =>
+        {
+            var findParents = FindParents(ci.LCID).Except(already).ToList();
+            findParents
+                .Select(parent =>
+                {
+                    already.Add(parent);
+                    return $"        {parent} => {ci.Name.Replace('-', '_')},";
+                })
+                .ForEach(l => Helper.AppendLine(l));
+        });
 
-	private static IEnumerable<int> FindParents(int toFind) => s_allChildren.TryGetValue(toFind, out var v) ? v.Prepend(toFind) : [toFind];
+        Helper.AppendLine("        _ => fallback");
+        Helper.AppendLine("    };");
+        Helper.AppendLine("}");
+
+        return Helper.GetOutput(GeneratedFileName, Validator);
+    }
+
+    private static IEnumerable<int> FindParents(int toFind) => s_allChildren.TryGetValue(toFind, out var v) ? v.Prepend(toFind) : [toFind];
 }

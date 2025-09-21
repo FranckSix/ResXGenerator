@@ -1,234 +1,75 @@
-﻿using System.Collections.Immutable;
-using System.Text;
-using System.Xml;
-using Aigamo.ResXGenerator.Extensions;
+﻿using Aigamo.ResXGenerator.Extensions;
+using Aigamo.ResXGenerator.Models;
 using Aigamo.ResXGenerator.Tools;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Text;
+#nullable disable
 
 namespace Aigamo.ResXGenerator.Generators;
 
-public sealed class ResourceManagerGenerator : StringBuilderGenerator<GenFileOptions>, IResXGenerator
+public sealed class ResourceManagerGenerator : GeneratorBase<GenFileOptions>, IResXGenerator
 {
-	public override GeneratedOutput Generate(GenFileOptions options, CancellationToken cancellationToken = default)
-	{
-		var errorsAndWarnings = new List<Diagnostic>();
-		var generatedFileName = $"{options.LocalNamespace}.{options.ClassName}.g.cs";
+    private StringBuilderGeneratorHelper Helper { get; set; }
 
-		var content = options.GroupedFile.MainFile.File.GetText(cancellationToken);
-		if (content is null) return new GeneratedOutput (options.GroupedFile.MainFile.File.Path, "//ERROR reading file:", errorsAndWarnings);
+    public override GeneratedOutput Generate(GenFileOptions options, CancellationToken cancellationToken = default)
+    {
+        Init(options);
 
-		// HACK: netstandard2.0 doesn't support improved interpolated strings?
-		var builder = GetBuilder(options.CustomToolNamespace ?? options.LocalNamespace);
+        Helper = new StringBuilderGeneratorHelper(options);
 
-		if (options.GenerateCode)
-			AppendCodeUsings(builder);
-		else
-			AppendResourceManagerUsings(builder);
+        Content = Options.GroupedFile.MainFile.File.GetText(cancellationToken);
+        if (Content is null)
+        {
+            GeneratedFileName = Options.GroupedFile.MainFile.File.Path;
+            Helper.Append("//ERROR reading file:");
+            return Helper.GetOutput(GeneratedFileName, Validator);
+        }
 
-		builder.Append(options.PublicClass ? "public" : "internal");
-		builder.Append(options.StaticClass ? " static" : string.Empty);
-		builder.Append(options.PartialClass ? " partial class " : " class ");
-		builder.AppendLine(options.ClassName);
-		builder.AppendLine("{");
+        GeneratedFileName = $"{Options.LocalNamespace}.{Options.ClassName}.g.cs";
 
-		var indent = "    ";
-		string containerClassName = options.ClassName;
+        Helper.AppendHeader(Options.CustomToolNamespace ?? Options.LocalNamespace);
+        Helper.AppendResourceManagerUsings();
+        Helper.AppendClassHeader(options);
+        Helper.AppendInnerClass(options, Validator);
+        GenerateResourceManager(cancellationToken);
+        Helper.AppendClassFooter(options);
 
-		if (options.InnerClassVisibility != InnerClassVisibility.NotGenerated)
-		{
-			containerClassName = string.IsNullOrEmpty(options.InnerClassName) ? "Resources" : options.InnerClassName;
-			if (!string.IsNullOrEmpty(options.InnerClassInstanceName))
-			{
-				if (options.StaticClass || options.StaticMembers)
-				{
-					errorsAndWarnings.Add(Diagnostic.Create(
-						descriptor: Rules.MemberWithStaticError,
-						location: Location.Create(
-							filePath: options.GroupedFile.MainFile.File.Path,
-							textSpan: new TextSpan(),
-							lineSpan: new LinePositionSpan()
-						)
-					));
-				}
+        return Helper.GetOutput(GeneratedFileName, Validator);
+    }
 
-				builder.Append(indent);
-				builder.Append("public ");
-				builder.Append(containerClassName);
-				builder.Append(" ");
-				builder.Append(options.InnerClassInstanceName);
-				builder.AppendLine(" { get; } = new();");
-				builder.AppendLine();
-			}
+    private void GenerateResourceManager(CancellationToken cancellationToken)
+    {
+        Helper.GenerateResourceManagerMembers(Options);
 
-			builder.Append(indent);
-			builder.Append(GetInnerClassVisibility(options));
-			builder.Append(options.StaticClass ? " static" : string.Empty);
-			builder.Append(options.PartialClass ? " partial class " : " class ");
+        var members = ReadResxFile(Content!);
 
-			builder.AppendLine(containerClassName);
-			builder.Append(indent);
-			builder.AppendLine("{");
+        members?.ForEach(fbi =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            CreateMember(fbi);
+        });
+    }
 
-			indent += "    ";
-		}
+    private void CreateMember(FallBackItem fallbackItem)
+    {
+        if (Helper.GenerateMember(fallbackItem, Options, Validator) is not { valid: true } output) return;
 
-		if (options.GenerateCode)
-			GenerateCode(options, content, indent, containerClassName, builder, errorsAndWarnings, cancellationToken);
-		else
-			GenerateResourceManager(options, content, indent, containerClassName, builder, errorsAndWarnings, cancellationToken);
+        var (_, resourceAccessByName) = output;
 
-		if (options.InnerClassVisibility != InnerClassVisibility.NotGenerated)
-		{
-			builder.AppendLine("    }");
-		}
+        if (resourceAccessByName)
+        {
+            Helper.Append(" => ResourceManager.GetString(nameof(");
+            Helper.Append(fallbackItem.Key);
+            Helper.Append("), ");
+        }
+        else
+        {
+            Helper.Append(@" => ResourceManager.GetString(""");
+            Helper.Append(fallbackItem.Key.Replace(@"""", @"\"""));
+            Helper.Append(@""", ");
+        }
 
-		builder.AppendLine("}");
-
-		return new GeneratedOutput(generatedFileName, builder.ToString(), errorsAndWarnings);
-	}
-
-	private static void GenerateCode(
-		GenFileOptions options,
-		SourceText content,
-		string indent,
-		string containerClassName,
-		StringBuilder builder,
-		List<Diagnostic> errorsAndWarnings,
-		CancellationToken cancellationToken)
-	{
-		var combo = new CultureInfoCombo(options.GroupedFile.SubFiles);
-		var definedLanguages = combo.GetDefinedLanguages();
-
-		var fallback = ReadResxFile(content);
-		var subfiles = definedLanguages.Select(lang =>
-		{
-			var subcontent = lang.FileWithHash.File.GetText(cancellationToken);
-			return subcontent is null
-				? null
-				: ReadResxFile(subcontent)?
-					.GroupBy(x => x.key)
-					.ToImmutableDictionary(x => x.Key, x => x.First().value);
-		}).ToList();
-		if (fallback is null || subfiles.Any(x => x is null))
-		{
-			builder.AppendFormat("//could not read {0} or one of its children", options.GroupedFile.MainFile.File.Path);
-			return;
-		}
-
-		var alreadyAddedMembers = new HashSet<string>();
-		fallback.ForEach((key, value, line) =>
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			if (
-				!GenerateMember(
-					indent,
-					builder,
-					options,
-					key,
-					value,
-					line,
-					alreadyAddedMembers,
-					errorsAndWarnings,
-					containerClassName,
-					out _
-				)
-			) return;
-
-			builder.Append(" => GetString_");
-			builder.Append(FunctionNamePostFix(definedLanguages));
-			builder.Append("(");
-			builder.Append(SymbolDisplay.FormatLiteral(value, true));
-
-			subfiles.ForEach(xml =>
-			{
-				builder.Append(", ");
-				if (!xml!.TryGetValue(key, out var langValue))
-					langValue = value;
-				builder.Append(SymbolDisplay.FormatLiteral(langValue, true));
-			});
-
-			builder.AppendLine(");");
-		});
-	}
-
-	private static void GenerateResourceManager(
-		GenFileOptions options,
-		SourceText content,
-		string indent,
-		string containerClassName,
-		StringBuilder builder,
-		List<Diagnostic> errorsAndWarnings,
-		CancellationToken cancellationToken)
-	{
-		GenerateResourceManagerMembers(builder, indent, containerClassName, options);
-
-		var members = ReadResxFile(content);
-		if (members is null)
-		{
-			return;
-		}
-
-		var alreadyAddedMembers = new HashSet<string> { Constants.CultureInfoVariable };
-		members.ForEach((key, value, line) =>
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			CreateMember(
-				indent,
-				builder,
-				options,
-				key,
-				value,
-				line,
-				alreadyAddedMembers,
-				errorsAndWarnings,
-				containerClassName
-			);
-		});
-	}
-
-	private static void CreateMember(
-		string indent,
-		StringBuilder builder,
-		GenFileOptions options,
-		string name,
-		string value,
-		IXmlLineInfo line,
-		HashSet<string> alreadyAddedMembers,
-		List<Diagnostic> errorsAndWarnings,
-		string containerClassName
-	)
-	{
-		if (!GenerateMember(indent, builder, options, name, value, line, alreadyAddedMembers, errorsAndWarnings, containerClassName, out var resourceAccessByName))
-		{
-			return;
-		}
-
-		if (resourceAccessByName)
-		{
-			builder.Append(" => ResourceManager.GetString(nameof(");
-			builder.Append(name);
-			builder.Append("), ");
-		}
-		else
-		{
-			builder.Append(@" => ResourceManager.GetString(""");
-			builder.Append(name.Replace(@"""", @"\"""));
-			builder.Append(@""", ");
-		}
-
-		builder.Append(Constants.CultureInfoVariable);
-		builder.Append(")");
-		builder.Append(options.NullForgivingOperators ? "!" : null);
-		builder.AppendLine(";");
-	}
-
-	private static string GetInnerClassVisibility(GenFileOptions options)
-	{
-		if (options.InnerClassVisibility == InnerClassVisibility.SameAsOuter)
-			return options.PublicClass ? "public" : "internal";
-
-		return options.InnerClassVisibility.ToString().ToLowerInvariant();
-	}
+        Helper.Append(Constants.CultureInfoVariable);
+        Helper.Append(")");
+        Helper.Append(Options.NullForgivingOperators ? "!" : string.Empty);
+        Helper.AppendLine(";");
+    }
 }

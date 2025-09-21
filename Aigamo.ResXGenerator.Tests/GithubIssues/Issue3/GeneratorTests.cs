@@ -3,7 +3,6 @@ using Aigamo.ResXGenerator.Generators;
 using Aigamo.ResXGenerator.Tools;
 using FluentAssertions;
 using Xunit;
-using static System.Guid;
 
 namespace Aigamo.ResXGenerator.Tests.GithubIssues.Issue3;
 
@@ -115,7 +114,7 @@ public class GeneratorTests
                 EmbeddedFilename = "VocaDb.Web.App_GlobalResources.CommonMessages",
                 CustomToolNamespace = null,
                 GroupedFile = new GroupedAdditionalFile(
-                    mainFile: new AdditionalTextWithHash(new AdditionalTextStub("", text), NewGuid()),
+                    mainFile: new AdditionalTextWithHash(new AdditionalTextStub("", text), Guid.NewGuid()),
                     subFiles: []
                 ),
                 ClassName = "CommonMessages",
@@ -208,7 +207,7 @@ public class GeneratorTests
             CustomToolNamespace = "Resources",
             ClassName = "ActivityEntrySortRuleNames",
             GroupedFile = new GroupedAdditionalFile(
-                mainFile: new AdditionalTextWithHash(new AdditionalTextStub("", text), NewGuid()),
+                mainFile: new AdditionalTextWithHash(new AdditionalTextStub("", text), Guid.NewGuid()),
                 subFiles: []
             ),
             PublicClass = true,
