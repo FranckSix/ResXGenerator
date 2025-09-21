@@ -1,4 +1,5 @@
 ﻿namespace DemoLocalization;
+
 public enum Langage
 {
 	English,

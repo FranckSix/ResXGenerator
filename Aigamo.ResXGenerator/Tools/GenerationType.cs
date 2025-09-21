@@ -2,8 +2,8 @@
 
 public enum GenerationType
 {
-    ResourceManager,
-    CodeGeneration,
-    StringLocalizer,
-    SameAsOuter
+	ResourceManager,
+	CodeGeneration,
+	StringLocalizer,
+	SameAsOuter
 }

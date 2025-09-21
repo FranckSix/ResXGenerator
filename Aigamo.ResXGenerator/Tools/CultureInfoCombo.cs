@@ -19,18 +19,16 @@ public readonly record struct CultureInfoCombo
 			.ToList() ?? [];
 	}
 
-	public IReadOnlyList<(string Iso, AdditionalTextWithHash File)> CultureInfos { get;}
+	public IReadOnlyList<(string Iso, AdditionalTextWithHash File)> CultureInfos { get; }
 
 	public IReadOnlyList<ComboItem> GetDefinedLanguages() => CultureInfos?
 		.Select(x => (x.File, new CultureInfo(x.Iso)))
 		.Select(x => new ComboItem(x.Item2.Name.Replace('-', '_'), x.Item2.LCID, x.File))
 		.ToList() ?? [];
 
-	public bool Equals(CultureInfoCombo other)
-	{
-		return (CultureInfos ?? []).Select(x => x.Iso)
-			.SequenceEqual(other.CultureInfos?.Select(x => x.Iso) ?? []);
-	}
+	public bool Equals(CultureInfoCombo other) =>
+		(CultureInfos ?? []).Select(x => x.Iso)
+		.SequenceEqual(other.CultureInfos?.Select(x => x.Iso) ?? []);
 
 	public override int GetHashCode()
 	{
