@@ -82,7 +82,7 @@ var myViewModel = provider.GetService<IMyViewModel>();
 
 public class MyViewModel(IArtistCategoriesNames resources) : IMyViewModel
 {
-	public string Value => resources.Actor // retur also the value string
+	public string Value => resources.Actor // return also the value string
 }
 ```
 
