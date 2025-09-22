@@ -20,7 +20,7 @@ public readonly record struct GroupedAdditionalFile
 		unchecked
 		{
 			var hashCode = MainFile.GetHashCode();
-			SubFiles.ForEach(additionalText => hashCode = hashCode * 397 ^ additionalText.GetHashCode());
+			SubFiles.ForEach(additionalText => hashCode = (hashCode * 397) ^ additionalText.GetHashCode());
 			return hashCode;
 		}
 	}
