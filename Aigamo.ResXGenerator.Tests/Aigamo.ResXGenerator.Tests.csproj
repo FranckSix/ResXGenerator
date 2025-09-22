@@ -34,6 +34,9 @@
 			<DependentUpon>$([System.IO.Path]::GetFileNameWithoutExtension('%(FileName)')).resx</DependentUpon>
 		</EmbeddedResource>
 		<EmbeddedResource Update="IntegrationTests\Test2.resx">
+			<GenerateCode>true</GenerateCode>
+		</EmbeddedResource>
+		<EmbeddedResource Update="IntegrationTests\Test2a.resx">
 			<GenerationType>CodeGeneration</GenerationType>
 		</EmbeddedResource>
 		<EmbeddedResource Update="IntegrationTests\Test3.resx">
