@@ -9,19 +9,22 @@
 public enum GenerationType
 {
 	/// <summary>
-	/// Specifies that a resource manager should be used to handle localization resources.
+	/// When this option chosen the generator will use the classic ResourceManager to get resources string.
+	/// See : <see href="https://learn.microsoft.com/en-us/dotnet/api/system.resources.resourcemanager?view=net-9.0">ResourceManager</see>.
 	/// </summary>
 	ResourceManager,
 	/// <summary>
-	/// Provides functionality to obtain resources programmatically.
+	/// When this option chosen the generator will generate code to get resources string. See README.md (Generate Code (per file or globally)) for more details
 	/// </summary>
 	CodeGeneration,
 	/// <summary>
-	/// Specifies that a string localizer should be used to manage localization resources.
+	/// When this option chosen the generator will generate interfaces and classes to use with
+	/// <see href="https://docs.microsoft.com/en-us/dotnet/core/extensions/localization">[Microsoft.Extensions.Localization] `IStringLocalizer&lt;T&gt;`</see>.
+	/// To see how to use it see README.md (Using IStringLocalizer)
 	/// </summary>
 	StringLocalizer,
 	/// <summary>
-	/// Specifies that the generation type should be the same as the project option.
+	/// When this option chosen the generator will use the same generation type as the outer class if any. If no outer class exist it will fall back to 'ResourceManager'.
 	/// </summary>
 	SameAsOuter
 }

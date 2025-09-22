@@ -98,13 +98,13 @@ This paramerter is optional The default value is 'ResourceManager' to keep the a
 
 AllowedValues :
 -	ResourceManager
-	- When this option choosen the generator will use the classic [System.Resources.ResourceManager](https://learn.microsoft.com/en-us/dotnet/api/system.resources.resourcemanager?view=net-9.0) to get resources string.
+	- When this option chosen the generator will use the classic [System.Resources.ResourceManager](https://learn.microsoft.com/en-us/dotnet/api/system.resources.resourcemanager?view=net-9.0) to get resources string.
 -	CodeGeneration (You can chose this option to replace the GenerateCode option)
-	- When this option choosen the generator will generate code to get resources string. See [Generate Code](#Generate-Code) for more details))
+	- When this option chosen the generator will generate code to get resources string. See [Generate Code](#Generate-Code) for more details))
 -	StringLocalizer
-	- When this option choosen the generator will generate interface and class to use with [Microsoft.Extensions.Localization](https://docs.microsoft.com/en-us/dotnet/core/extensions/localization) `IStringLocalizer<T>`. To see how to use it see [Using IStringLocalizer](#IStringLocalizer)
+	- When this option chosen the generator will generate interface and class to use with [Microsoft.Extensions.Localization](https://docs.microsoft.com/en-us/dotnet/core/extensions/localization) `IStringLocalizer<T>`. To see how to use it see [Using IStringLocalizer](#IStringLocalizer)
 -	SameAsOuter
-	- When this option choosen the generator will use the same generation type as the outer class if any. If no outer class exist it will fallback to 'ResourceManager'.
+	- When this option chosen the generator will use the same generation type as the outer class if any. If no outer class exist it will fall back to 'ResourceManager'.
 ```xml
 <ItemGroup>
 	<EmbeddedResource Update="Resources\ArtistCategoriesNames.resx">
