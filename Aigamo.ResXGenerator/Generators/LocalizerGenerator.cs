@@ -40,12 +40,12 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 
 				public interface I{{Options.ClassName}}
 				{
-					{{string.Join(Environment.NewLine, fallback.Select(GenerateInterfaceMembers)).Indent()}}
+					{{string.Join(Constants.NewLine, fallback.Select(GenerateInterfaceMembers)).Indent()}}
 				}
 
 				{{Options.PublicClass.InterpolateCondition("public", "internal")}} class {{Options.ClassName}}(IStringLocalizer<{{Options.ClassName}}> stringLocalizer) : I{{Options.ClassName}}
 				{
-					{{string.Join(Environment.NewLine, fallback.Select(GenerateMembers)).Indent()}}
+					{{string.Join(Constants.NewLine, fallback.Select(GenerateMembers)).Indent()}}
 				}
 				""";
 	}

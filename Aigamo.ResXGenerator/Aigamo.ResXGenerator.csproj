@@ -48,6 +48,7 @@
 
 	<ItemGroup>
 		<None Include="../README.md" Pack="true" PackagePath="\" />
+		<None Include="../QUICKSTART.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>

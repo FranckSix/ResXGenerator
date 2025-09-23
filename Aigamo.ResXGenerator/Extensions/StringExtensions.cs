@@ -11,12 +11,12 @@ internal static class StringExtensions
 	public static string ToXmlCommentSafe(this string input, string indent)
 	{
 		var lines = HttpUtility.HtmlEncode(input.Trim()).GetCodeLines();
-		return string.Join($"{Environment.NewLine}{indent}/// ", lines);
+		return string.Join($"{Constants.NewLine}{indent}/// ", lines);
 	}
 	public static string Indent(this string input, int level = 1)
 	{
 		var indent = new string('\t', level);
-		return string.Join($"{Environment.NewLine}{indent}", input.GetCodeLines());
+		return string.Join($"{Constants.NewLine}{indent}", input.GetCodeLines());
 	}
 
 	public static IEnumerable<string> GetCodeLines(this string input) => RegexDefinitions.NewLine.Split(input);

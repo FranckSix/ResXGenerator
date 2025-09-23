@@ -32,7 +32,7 @@ public sealed class LocalizerRegisterGenerator : GeneratorBase<GenFilesNamespace
 				{
 					public static IServiceCollection {{options.NameOfUsingMethodRegistration}}(this IServiceCollection services)
 					{
-						{{string.Join(Environment.NewLine, items.Select(GenerateRegistrationCalls)).Indent(2)}}
+						{{string.Join(Constants.NewLine, items.Select(GenerateRegistrationCalls)).Indent(2)}}
 						return services;
 					}
 				}

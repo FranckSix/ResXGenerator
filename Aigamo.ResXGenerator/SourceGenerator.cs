@@ -68,7 +68,7 @@ public class SourceGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, $"ResXManager({file.ClassName})", e));
+				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, $"ResXManager({file.ClassName})", e.Message));
 			}
 		});
 	}
@@ -86,7 +86,7 @@ public class SourceGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, $"ResXManager({file.ClassName})", e));
+				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, $"ResXManager({file.ClassName})", e.Message));
 			}
 		});
 
@@ -110,7 +110,7 @@ public class SourceGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, generator.GeneratedFileName, e));
+				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, generator.GeneratedFileName, e.Message));
 			}
 		});
 	}
@@ -129,7 +129,7 @@ public class SourceGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, "Registration of localizers", e));
+				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, "Registration of localizers", e.Message));
 			}
 		});
 
@@ -155,7 +155,7 @@ public class SourceGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, $"Error while generating class for {file.ClassName}", e));
+				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, $"Error while generating class for {file.ClassName}", e.Message));
 			}
 		});
 	}
@@ -167,6 +167,7 @@ public class SourceGenerator : IIncrementalGenerator
 
 		context.RegisterSourceOutput(global, (ctx, gns) =>
 		{
+			if (gns.Length == 0) return;
 			try
 			{
 				var output = globalGenerator.Generate(gns, ctx.CancellationToken);
@@ -174,7 +175,7 @@ public class SourceGenerator : IIncrementalGenerator
 			}
 			catch (Exception e)
 			{
-				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, " Global localizer registration", e));
+				ctx.ReportDiagnostic(Diagnostic.Create(Analyser.FatalError, Location.None, " Global localizer registration", e.Message));
 			}
 		});
 	}
