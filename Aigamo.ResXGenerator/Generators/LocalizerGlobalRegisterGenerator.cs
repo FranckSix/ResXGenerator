@@ -38,7 +38,7 @@ public sealed class LocalizerGlobalRegisterGenerator : GeneratorBase<ImmutableAr
 					return services;
 				}
 			}
-			""";
+			""".NormalizeLineEndings();
 
 		return GetOutput(sourceCode);
 	}

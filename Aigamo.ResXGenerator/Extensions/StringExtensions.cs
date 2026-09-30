@@ -20,4 +20,6 @@ internal static class StringExtensions
 	}
 
 	public static IEnumerable<string> GetCodeLines(this string input) => RegexDefinitions.NewLine.Split(input);
+
+	public static string NormalizeLineEndings(this string input, string newLine = Constants.NewLine) => RegexDefinitions.NewLine.Replace(input, newLine);
 }

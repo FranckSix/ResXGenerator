@@ -50,11 +50,11 @@ public class StringBuilderGeneratorHelper
 			validator.ValidateInconsistentModificator(options);
 
 			Builder.Append(Indent);
-			Builder.AppendLine("///<summary>");
+			Builder.AppendLineLF("///<summary>");
 			Builder.Append(Indent);
-			Builder.AppendLine($"///Ressource class for {ContainerClassName}");
+			Builder.AppendLineLF($"///Ressource class for {ContainerClassName}");
 			Builder.Append(Indent);
-			Builder.AppendLine("///</summary>");
+			Builder.AppendLineLF("///</summary>");
 			Builder.Append(Indent);
 			Builder.Append("public ");
 			Builder.Append(ContainerClassName);
@@ -65,13 +65,13 @@ public class StringBuilderGeneratorHelper
 		}
 
 		Builder.Append(Indent);
-		Builder.AppendLine("///<summary>");
+		Builder.AppendLineLF("///<summary>");
 		Builder.Append(Indent);
-		Builder.AppendLine($"///Ressource class for {ContainerClassName}");
+		Builder.AppendLineLF($"///Ressource class for {ContainerClassName}");
 		Builder.Append(Indent);
-		Builder.AppendLine("///</summary>");
+		Builder.AppendLineLF("///</summary>");
 		Builder.Append(Indent);
-		Builder.AppendLine(Constants.GeneratedCodeAttribute);
+		Builder.AppendLineLF(Constants.GeneratedCodeAttribute);
 		Builder.Append(Indent);
 		Builder.Append(GetInnerClassVisibility(options));
 		Builder.Append(options.StaticClass ? " static" : string.Empty);
@@ -86,10 +86,10 @@ public class StringBuilderGeneratorHelper
 
 	public void AppendClassHeader(GenFileOptions options)
 	{
-		Builder.AppendLine("///<summary>");
-		Builder.AppendLine($"///Ressource class for {ContainerClassName}");
-		Builder.AppendLine("///</summary>");
-		Builder.AppendLine(Constants.GeneratedCodeAttribute);
+		Builder.AppendLineLF("///<summary>");
+		Builder.AppendLineLF($"///Ressource class for {ContainerClassName}");
+		Builder.AppendLineLF("///</summary>");
+		Builder.AppendLineLF(Constants.GeneratedCodeAttribute);
 		Builder.Append(options.PublicClass ? "public" : "internal");
 		Builder.Append(options.StaticClass ? " static" : string.Empty);
 		Builder.Append(options.PartialClass ? " partial class " : " class ");
@@ -121,7 +121,7 @@ public class StringBuilderGeneratorHelper
 			resourceAccessByName = false;
 		}
 
-		if (!validator.ValidateMember(fallbackItem, options, ContainerClassName)) return (false, resourceAccessByName);
+		if (!validator.ValidateMember(fallbackItem, options, ContainerClassName)) return (false, resourceAccessByName, null);
 
 		var typeNameResult = validator.ValidateTypeName(fallbackItem, options);
 		if (!typeNameResult.valid) return (false, resourceAccessByName, null);
@@ -129,7 +129,7 @@ public class StringBuilderGeneratorHelper
 		switch (typeNameResult.typeName)
 		{
 			case null:
-			case { FullName: "System.String"}:
+			case { FullName: "System.String" }:
 				GenerateValidatedMemberAsString(fallbackItem, options, memberName);
 				break;
 			case { FullName: "System.Resources.ResXFileRef" }:
@@ -149,7 +149,8 @@ public class StringBuilderGeneratorHelper
 				GenerateValidatedMemberAsAnyType(fallbackItem, options, memberName, typeNameResult.typeName);
 
 				break;
-		};
+		}
+		;
 
 		return (true, resourceAccessByName, typeNameResult.typeName);
 	}
@@ -214,14 +215,14 @@ public class StringBuilderGeneratorHelper
 
 		Builder.Append("using ");
 		Builder.Append(Constants.SystemCodeDomCompiler);
-		Builder.AppendLine(";");
+		Builder.AppendLineLF(";");
 
 		Builder.AppendLineLF();
 	}
 
 	public void AppendCodeUsings()
 	{
-		Builder.AppendLine($"using {Constants.SystemCodeDomCompiler};");
+		Builder.AppendLineLF($"using {Constants.SystemCodeDomCompiler};");
 		Builder.AppendLineLF("using static Aigamo.ResXGenerator.Helpers;");
 		Builder.AppendLineLF();
 	}
@@ -236,7 +237,7 @@ public class StringBuilderGeneratorHelper
 		Builder.AppendLineLF(";");
 
 		Builder.Append(Indent);
-		Builder.AppendLine("///<summary />");
+		Builder.AppendLineLF("///<summary />");
 		Builder.Append(Indent);
 		Builder.Append("public static ");
 		Builder.Append(nameof(ResourceManager));
@@ -253,7 +254,7 @@ public class StringBuilderGeneratorHelper
 		Builder.AppendLineLF(").Assembly);");
 
 		Builder.Append(Indent);
-		Builder.AppendLine("///<summary />");
+		Builder.AppendLineLF("///<summary />");
 		Builder.Append(Indent);
 		Builder.Append("public ");
 		Builder.Append(options.StaticMembers ? "static " : string.Empty);

@@ -1,4 +1,5 @@
-﻿using Aigamo.ResXGenerator.Generators;
+﻿using Aigamo.ResXGenerator.Extensions;
+using Aigamo.ResXGenerator.Generators;
 using Aigamo.ResXGenerator.Tools;
 using FluentAssertions;
 using Xunit;
@@ -34,7 +35,7 @@ public class CodeGenTests
 			///<summary>
 			///Ressource class for ActivityEntrySortRuleNames
 			///</summary>
-			[GeneratedCode("Aigamo.ResXGenerator", "1.0.0")]
+			[GeneratedCode("Aigamo.ResXGenerator", "{{Constants.Version}}")]
 			{{(publicClass ? "public" : "internal")}}{{(partial ? " partial" : string.Empty)}}{{(staticClass ? " static" : string.Empty)}} class ActivityEntrySortRuleNames
 			{
 
@@ -49,7 +50,7 @@ public class CodeGenTests
 				public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} CreateDateDescending => GetString_1030_6("Newest", "NewestDaDK", "NewestDa");
 			}
 
-			""";
+			""".NormalizeLineEndings();
 
 		var result = generator.Generate(
 			new GenFileOptions
@@ -74,7 +75,7 @@ public class CodeGenTests
 				StaticMembers = staticMembers
 			});
 		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.ReplaceLineEndings().Should().Be(expected.ReplaceLineEndings());
+		result.SourceCode.Should().Be(expected);
 	}
 
 

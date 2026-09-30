@@ -44,7 +44,7 @@ public sealed class LocalizerRegisterGenerator : GeneratorBase<GenFilesNamespace
 						return services;
 					}
 				}
-				""";
+				""".NormalizeLineEndings();
 	}
 
 	private static string GenerateRegistrationCalls(string className) => $"services.AddSingleton<I{className},{className}>();";

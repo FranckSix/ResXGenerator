@@ -46,7 +46,7 @@ public class GlobalRegisterTests
 									return services;
 								}
 							}
-							""";
+							""".NormalizeLineEndings();
 
 		var result = generator.Generate(
 			options:
@@ -78,7 +78,7 @@ public class GlobalRegisterTests
 		);
 
 		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.ReplaceLineEndings().Should().Be(expected.ReplaceLineEndings());
+		result.SourceCode.Should().Be(expected);
 	}
 
 	[Fact]

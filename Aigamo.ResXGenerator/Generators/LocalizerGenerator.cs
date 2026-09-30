@@ -56,7 +56,7 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 				{
 					{{string.Join(Constants.NewLine, fallback.Select(GenerateMembers)).Indent()}}
 				}
-				""";
+				""".NormalizeLineEndings();
 	}
 
 	private string GenerateMembers(FallBackItem fallbackItem) => !Validator.ValidateMember(fallbackItem, Options) ?
@@ -69,5 +69,5 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 		/// Looks up a localized string similar to {{fallbackItem.Value.ToXmlCommentSafe()}}.
 		/// </summary>
 		string {{fallbackItem.Key}} {get;}
-		""";
+		""".NormalizeLineEndings();
 }

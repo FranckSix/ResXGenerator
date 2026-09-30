@@ -44,7 +44,7 @@ public class LocalizerRegisterTests
 									return services;
 								}
 							}
-							""";
+							""".NormalizeLineEndings();
 
 		var result = generator.Generate(
 			options: new GenFilesNamespace(
@@ -66,7 +66,7 @@ public class LocalizerRegisterTests
 			));
 
 		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.ReplaceLineEndings().Should().Be(expected.ReplaceLineEndings());
+		result.SourceCode.Should().Be(expected);
 	}
 
 	[Fact]

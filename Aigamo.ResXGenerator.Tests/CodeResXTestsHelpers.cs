@@ -1,4 +1,6 @@
-﻿namespace Aigamo.ResXGenerator.Tests;
+﻿using Aigamo.ResXGenerator.Extensions;
+
+namespace Aigamo.ResXGenerator.Tests;
 
 internal static class CodeResXTestsHelpers
 {
@@ -73,7 +75,7 @@ internal static class CodeResXTestsHelpers
 				<value>Newest{language}</value>
 			</data>
 		</root>
-		""";
+		""".NormalizeLineEndings();
 
 	public static string GetDaTextWithDuplicates() =>
 		"""
@@ -82,11 +84,11 @@ internal static class CodeResXTestsHelpers
 			<data name="DupKey" xml:space="preserve">
 			 <value>Works.</value>
 			</data>
-			<data name="DupKey" xml:space="preserve">
+			<data name="DupKey" xml:space="preserve">	
 			 <value>Doeesnt Work.</value>
 			</data>
 		</root>
-		""";
+		""".NormalizeLineEndings();
 
 	public static string GetTextWithNewline() =>
 		"""
@@ -231,5 +233,5 @@ internal static class CodeResXTestsHelpers
 				<value>This page revision has been hidden.</value>
 			</data>
 		</root>
-		""";
+		""".NormalizeLineEndings();
 }
