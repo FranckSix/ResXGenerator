@@ -2,7 +2,6 @@
 using Aigamo.ResXGenerator.Extensions;
 using Aigamo.ResXGenerator.Models;
 using Aigamo.ResXGenerator.Tools;
-#nullable disable
 
 namespace Aigamo.ResXGenerator.Generators;
 
@@ -67,8 +66,8 @@ public sealed class ComboGenerator : GeneratorBase<CultureInfoCombo>, IComboGene
 
 		Helper.Append(") => ");
 		Helper.Append(Constants.SystemGlobalization);
-		Helper.AppendLine(".CultureInfo.CurrentUICulture.LCID switch");
-		Helper.AppendLine("\t{");
+		Helper.AppendLineLF(".CultureInfo.CurrentUICulture.LCID switch");
+		Helper.AppendLineLF("\t{");
 		var already = new HashSet<int>();
 		definedLanguages.ForEach(ci =>
 		{
@@ -79,12 +78,12 @@ public sealed class ComboGenerator : GeneratorBase<CultureInfoCombo>, IComboGene
 					already.Add(parent);
 					return $"\t\t{parent} => {ci.Name.Replace('-', '_')},";
 				})
-				.ForEach(l => Helper.AppendLine(l));
+				.ForEach(l => Helper.AppendLineLF(l));
 		});
 
-		Helper.AppendLine("\t\t_ => fallback");
-		Helper.AppendLine("\t};");
-		Helper.AppendLine("}");
+		Helper.AppendLineLF("\t\t_ => fallback");
+		Helper.AppendLineLF("\t};");
+		Helper.AppendLineLF("}");
 
 		return Helper.GetOutput(GeneratedFileName, Validator);
 	}

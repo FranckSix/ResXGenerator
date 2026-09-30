@@ -1,7 +1,6 @@
 ﻿using Aigamo.ResXGenerator.Extensions;
 using Aigamo.ResXGenerator.Models;
 using Aigamo.ResXGenerator.Tools;
-#nullable disable
 
 namespace Aigamo.ResXGenerator.Generators;
 
@@ -15,13 +14,13 @@ public sealed class ResourceManagerGenerator : GeneratorBase<GenFileOptions>, IR
 
 		Helper = new StringBuilderGeneratorHelper(options);
 
-		Content = Options.GroupedFile.MainFile.File.GetText(cancellationToken);
-		if (Content is null)
+		if (Options.GroupedFile.MainFile.File.GetText(cancellationToken) is not { } content)
 		{
 			GeneratedFileName = Options.GroupedFile.MainFile.File.Path;
 			Helper.Append("//ERROR reading file:");
 			return Helper.GetOutput(GeneratedFileName, Validator);
 		}
+		Content = content;
 
 		GeneratedFileName = $"{Options.LocalNamespace}.{Options.ClassName}.g.cs";
 
@@ -52,24 +51,48 @@ public sealed class ResourceManagerGenerator : GeneratorBase<GenFileOptions>, IR
 	{
 		if (Helper.GenerateMember(fallbackItem, Options, Validator) is not { valid: true } output) return;
 
-		var (_, resourceAccessByName) = output;
+		var (_, resourceAccessByName, typeName) = output;
 
-		if (resourceAccessByName)
+		switch (typeName)
 		{
-			Helper.Append(" => ResourceManager.GetString(nameof(");
-			Helper.Append(fallbackItem.Key);
-			Helper.Append("), ");
-		}
-		else
-		{
-			Helper.Append(@" => ResourceManager.GetString(""");
-			Helper.Append(fallbackItem.Key.Replace(@"""", @"\"""));
-			Helper.Append(@""", ");
+			case null:
+			case { FullName: "System.String" }:
+				if (resourceAccessByName)
+				{
+					Helper.Append(" => ResourceManager.GetString(nameof(");
+					Helper.Append(fallbackItem.Key);
+					Helper.Append("), ");
+				}
+				else
+				{
+					Helper.Append(@" => ResourceManager.GetString(""");
+					Helper.Append(fallbackItem.Key.Replace(@"""", @"\"""));
+					Helper.Append(@""", ");
+				}
+				break;
+			default:
+				Helper.Append(" => (");
+				Helper.Append(typeName.ToCSharp());
+				Helper.Append(")");
+
+				if (resourceAccessByName)
+				{
+					Helper.Append("ResourceManager.GetObject(nameof(");
+					Helper.Append(fallbackItem.Key);
+					Helper.Append("), ");
+				}
+				else
+				{
+					Helper.Append(@"ResourceManager.GetObject(""");
+					Helper.Append(fallbackItem.Key.Replace(@"""", @"\"""));
+					Helper.Append(@""", ");
+				}
+				break;
 		}
 
 		Helper.Append(Constants.CultureInfoVariable);
 		Helper.Append(")");
 		Helper.Append(Options.NullForgivingOperators ? "!" : string.Empty);
-		Helper.AppendLine(";");
+		Helper.AppendLineLF(";");
 	}
 }
