@@ -13,7 +13,7 @@
 		<ResXGenerator_StaticClass>false</ResXGenerator_StaticClass>
 	</PropertyGroup>
 
-	<Import Project="$(SolutionDir)Aigamo.ResXGenerator/build/Aigamo.ResXGenerator.props" />
+	<Import Project="../Aigamo.ResXGenerator/build/Aigamo.ResXGenerator.props" />
 
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />

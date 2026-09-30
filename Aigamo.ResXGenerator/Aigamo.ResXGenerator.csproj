@@ -54,8 +54,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\" />
-		<None Include="$(SolutionDir)QUICKSTART.md" Pack="true" PackagePath="\" />
+		<None Include="../README.md" Pack="true" PackagePath="\" />
+		<None Include="../QUICKSTART.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>
