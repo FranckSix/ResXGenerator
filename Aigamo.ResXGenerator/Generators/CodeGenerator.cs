@@ -3,7 +3,6 @@ using Aigamo.ResXGenerator.Extensions;
 using Aigamo.ResXGenerator.Models;
 using Aigamo.ResXGenerator.Tools;
 using Microsoft.CodeAnalysis.CSharp;
-#nullable disable
 
 namespace Aigamo.ResXGenerator.Generators;
 
@@ -62,7 +61,10 @@ public sealed class CodeGenerator : GeneratorBase<GenFileOptions>, IResXGenerato
 		fallback.ForEach(fbi =>
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (Helper.GenerateMember(fbi, Options, Validator) is not { valid: true }) return;
+			var memberResult = Helper.GenerateMember(fbi, Options, Validator);
+			if (memberResult is not { valid: true }) return;
+
+			if (!Validator.ValidateTypeForCodeGen(memberResult.typeName, fbi, Options)) return;
 
 			Helper.Append(" => GetString_");
 			Helper.AppendLanguages(definedLanguages);
@@ -77,7 +79,7 @@ public sealed class CodeGenerator : GeneratorBase<GenFileOptions>, IResXGenerato
 				Helper.Append(SymbolDisplay.FormatLiteral(langValue, true));
 			});
 
-			Helper.AppendLine(");");
+			Helper.AppendLineLF(");");
 		});
 	}
 }

@@ -398,7 +398,7 @@ public class SettingsTests
 
 		// ReSharper restore InconsistentNaming
 
-		public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
+		public override bool TryGetValue(string key, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out string? value)
 		{
 			string? GetVal()
 			{
