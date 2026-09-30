@@ -40,9 +40,19 @@ public sealed class ComboGenerator : GeneratorBase<CultureInfoCombo>, IComboGene
 
 		Helper.AppendHeader("Aigamo.ResXGenerator");
 
+		Helper.AppendLine($"using {Constants.SystemCodeDomCompiler};");
+
+		Helper.AppendLine("");
+		Helper.AppendLine("///<summary>");
+		Helper.AppendLine("///Helpers for localized strings");
+		Helper.AppendLine("///</summary>");
+		Helper.AppendLine(Constants.GeneratedCodeAttribute);
 		Helper.AppendLine("internal static partial class Helpers");
 		Helper.AppendLine("{");
 
+		Helper.AppendLine("\t///<summary>");
+		Helper.AppendLine("\t///Gets a localized string");
+		Helper.AppendLine("\t///</summary>");
 		Helper.Append("\tpublic static string GetString_");
 		var functionNamePostFix = Helper.AppendLanguages(definedLanguages);
 		Helper.Append("(string fallback");

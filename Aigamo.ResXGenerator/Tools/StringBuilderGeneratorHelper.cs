@@ -49,6 +49,12 @@ public class StringBuilderGeneratorHelper
 			validator.ValidateInconsistentModificator(options);
 
 			Builder.Append(Indent);
+			Builder.AppendLine("///<summary>");
+			Builder.Append(Indent);
+			Builder.AppendLine($"///Ressource class for {ContainerClassName}");
+			Builder.Append(Indent);
+			Builder.AppendLine("///</summary>");
+			Builder.Append(Indent);
 			Builder.Append("public ");
 			Builder.Append(ContainerClassName);
 			Builder.Append(" ");
@@ -57,6 +63,14 @@ public class StringBuilderGeneratorHelper
 			Builder.AppendLine();
 		}
 
+		Builder.Append(Indent);
+		Builder.AppendLine("///<summary>");
+		Builder.Append(Indent);
+		Builder.AppendLine($"///Ressource class for {ContainerClassName}");
+		Builder.Append(Indent);
+		Builder.AppendLine("///</summary>");
+		Builder.Append(Indent);
+		Builder.AppendLine(Constants.GeneratedCodeAttribute);
 		Builder.Append(Indent);
 		Builder.Append(GetInnerClassVisibility(options));
 		Builder.Append(options.StaticClass ? " static" : string.Empty);
@@ -71,6 +85,10 @@ public class StringBuilderGeneratorHelper
 
 	public void AppendClassHeader(GenFileOptions options)
 	{
+		Builder.AppendLine("///<summary>");
+		Builder.AppendLine($"///Ressource class for {ContainerClassName}");
+		Builder.AppendLine("///</summary>");
+		Builder.AppendLine(Constants.GeneratedCodeAttribute);
 		Builder.Append(options.PublicClass ? "public" : "internal");
 		Builder.Append(options.StaticClass ? " static" : string.Empty);
 		Builder.Append(options.PartialClass ? " partial class " : " class ");
@@ -101,7 +119,6 @@ public class StringBuilderGeneratorHelper
 			memberName = RegexDefinitions.InvalidMemberNameSymbols.Replace(fallbackItem.Key, "_");
 			resourceAccessByName = false;
 		}
-
 
 		if (!validator.ValidateMember(fallbackItem, options, ContainerClassName)) return (false, resourceAccessByName);
 
@@ -138,11 +155,16 @@ public class StringBuilderGeneratorHelper
 		Builder.Append(Constants.SystemResources);
 		Builder.AppendLine(";");
 
+		Builder.Append("using ");
+		Builder.Append(Constants.SystemCodeDomCompiler);
+		Builder.AppendLine(";");
+
 		Builder.AppendLine();
 	}
 
 	public void AppendCodeUsings()
 	{
+		Builder.AppendLine($"using {Constants.SystemCodeDomCompiler};");
 		Builder.AppendLine("using static Aigamo.ResXGenerator.Helpers;");
 		Builder.AppendLine();
 	}
@@ -156,6 +178,8 @@ public class StringBuilderGeneratorHelper
 		Builder.Append(Constants.SResourceManagerVariable);
 		Builder.AppendLine(";");
 
+		Builder.Append(Indent);
+		Builder.AppendLine("///<summary />");
 		Builder.Append(Indent);
 		Builder.Append("public static ");
 		Builder.Append(nameof(ResourceManager));
@@ -171,6 +195,8 @@ public class StringBuilderGeneratorHelper
 		Builder.Append(ContainerClassName);
 		Builder.AppendLine(").Assembly);");
 
+		Builder.Append(Indent);
+		Builder.AppendLine("///<summary />");
 		Builder.Append(Indent);
 		Builder.Append("public ");
 		Builder.Append(options.StaticMembers ? "static " : string.Empty);

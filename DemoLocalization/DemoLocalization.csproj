@@ -13,17 +13,17 @@
 		<ResXGenerator_StaticClass>false</ResXGenerator_StaticClass>
 	</PropertyGroup>
 
-	<Import Project="../Aigamo.ResXGenerator/build/Aigamo.ResXGenerator.props" />
+	<Import Project="$(SolutionDir)Aigamo.ResXGenerator/build/Aigamo.ResXGenerator.props" />
 
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.9" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Aigamo.ResXGenerator\Aigamo.ResXGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="$(SolutionDir)Aigamo.ResXGenerator\Aigamo.ResXGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>

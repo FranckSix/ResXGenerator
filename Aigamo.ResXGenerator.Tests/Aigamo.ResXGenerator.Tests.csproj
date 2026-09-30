@@ -8,26 +8,26 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-	<Import Project="../Aigamo.ResXGenerator/build/Aigamo.ResXGenerator.props" />
+	<Import Project="$(SolutionDir)Aigamo.ResXGenerator/build/Aigamo.ResXGenerator.props" />
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="5.10.3" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+		<PackageReference Include="FluentAssertions" Version="8.11.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.9" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-		<PackageReference Include="xunit" Version="2.4.1" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.12" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="coverlet.collector" Version="1.3.0">
+		<PackageReference Include="coverlet.collector" Version="10.1.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="xunit.v3" Version="4.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="**/*.??.resx;**/*.??-??.resx">
@@ -48,6 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Aigamo.ResXGenerator\Aigamo.ResXGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+		<ProjectReference Include="$(SolutionDir)Aigamo.ResXGenerator\Aigamo.ResXGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 	</ItemGroup>
 </Project>

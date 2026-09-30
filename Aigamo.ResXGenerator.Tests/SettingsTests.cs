@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Aigamo.ResXGenerator.Tools;
+﻿using Aigamo.ResXGenerator.Tools;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -67,7 +66,7 @@ public class SettingsTests
 				},
 				fileOptions: null!
 			),
-			token: default
+			TestContext.Current.CancellationToken
 		);
 		globalOptions.RootNamespace.Should().Be("namespace1");
 		globalOptions.ProjectFullPath.Should().Be("project1.csproj");
@@ -156,7 +155,7 @@ public class SettingsTests
 					},
 					fileOptions: null!
 				),
-				token: default
+				TestContext.Current.CancellationToken
 			)
 		);
 		fileOptions.InnerClassName.Should().BeNullOrEmpty();
@@ -263,7 +262,7 @@ public class SettingsTests
 				},
 				fileOptions: null!
 			),
-			token: default
+			TestContext.Current.CancellationToken
 		);
 		var fileOptions = GenFileOptions.Select(
 			file: new GroupedAdditionalFile(
@@ -355,7 +354,7 @@ public class SettingsTests
 				 },
 				 fileOptions: null!
 			 ),
-			 token: default
+			 TestContext.Current.CancellationToken
 		 );
 
 		globalOptions.RootNamespace.Should().Be("namespace1");
