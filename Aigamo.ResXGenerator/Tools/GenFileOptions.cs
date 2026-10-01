@@ -166,16 +166,10 @@ public readonly record struct GenFileOptions
 		IsValid = globalOptions.IsValid;
 	}
 
-	public static GenFileOptions Select(
-		GroupedAdditionalFile file,
-		AnalyzerConfigOptionsProvider options,
-		GlobalOptions globalOptions
-	)
-	{
-		return new GenFileOptions(
+	public static GenFileOptions Select(GroupedAdditionalFile file, AnalyzerConfigOptionsProvider options, GlobalOptions globalOptions) =>
+		new(
 			groupedFile: file,
 			options: options.GetOptions(file.MainFile.File),
 			globalOptions: globalOptions
 		);
-	}
 }

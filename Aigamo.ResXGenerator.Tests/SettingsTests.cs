@@ -362,6 +362,31 @@ public class SettingsTests
 		globalOptions.IsValid.Should().Be(true);
 	}
 
+	[Fact]
+	public void GlobalOptions_StringLocalizerMustIgnoreStaticOptions()
+	{
+		var globalOptions = GlobalOptions.Select(
+			 provider: new AnalyzerConfigOptionsProviderStub(
+				 globalOptions: new AnalyzerConfigOptionsStub
+				 {
+					 RootNamespace = "namespace1",
+					 MSBuildProjectFullPath = "project1.csproj",
+					 MSBuildProjectName = "project1",
+					 ResXGenerator_GenerationType = "StringLocalizer",
+					 ResXGenerator_StaticClass = "true",
+					 ResXGenerator_StaticMembers = "true"
+				 },
+				 fileOptions: null!
+			 ),
+			 TestContext.Current.CancellationToken
+		 );
+
+		globalOptions.RootNamespace.Should().Be("namespace1");
+		globalOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
+		globalOptions.IsValid.Should().Be(true);
+		globalOptions.StaticClass.Should().Be(false);
+		globalOptions.StaticMembers.Should().Be(false);
+	}
 
 	private class AnalyzerConfigOptionsStub : AnalyzerConfigOptions
 	{
