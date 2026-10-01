@@ -55,6 +55,11 @@ public class GeneratorTests
 				/// Looks up a localized string similar to Newest.
 				/// </summary>
 				public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} CreateDateDescending => ResourceManager.GetString(nameof(CreateDateDescending), CultureInfo){{(nullForgivingOperators ? "!" : string.Empty)}};
+
+				/// <summary>
+				/// Looks up a localized string similar to Resource With Spaces.
+				/// </summary>
+				public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} Resource_With_Spaces => ResourceManager.GetString("Resource With Spaces", CultureInfo){{(nullForgivingOperators ? "!" : string.Empty)}};
 			}
 
 			""".NormalizeLineEndings();
@@ -150,6 +155,11 @@ public class GeneratorTests
 						/// Looks up a localized string similar to Newest.
 						/// </summary>
 						public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} CreateDateDescending => ResourceManager.GetString(nameof(CreateDateDescending), CultureInfo){{(nullForgivingOperators ? "!" : string.Empty)}};
+
+						/// <summary>
+						/// Looks up a localized string similar to Resource With Spaces.
+						/// </summary>
+						public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} Resource_With_Spaces => ResourceManager.GetString("Resource With Spaces", CultureInfo);
 					}
 				}
 
@@ -296,6 +306,11 @@ public class GeneratorTests
 				/// Looks up a localized string similar to This page revision has been hidden..
 				/// </summary>
 				public static string? RevisionHidden => ResourceManager.GetString(nameof(RevisionHidden), CultureInfo);
+
+				/// <summary>
+				/// Looks up a localized string similar to Resource With Spaces.
+				/// </summary>
+				public static string? Resource_With_Spaces => ResourceManager.GetString("Resource With Spaces", CultureInfo);
 			}
 
 			""".NormalizeLineEndings();
@@ -319,6 +334,15 @@ public class GeneratorTests
 			},
 			TestContext.Current.CancellationToken
 		);
+
+		var expectedEnd = expected[^20..]
+		.Replace("\r", "\\r")
+		.Replace("\n", "\\n");
+
+		var actualEnd = result.SourceCode[^20..]
+		.Replace("\r", "\\r")
+		.Replace("\n", "\\n");
+
 		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
 		result.SourceCode.Should().Be(expected);
 	}

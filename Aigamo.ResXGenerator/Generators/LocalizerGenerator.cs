@@ -61,13 +61,13 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 
 	private string GenerateMembers(FallBackItem fallbackItem) => !Validator.ValidateMember(fallbackItem, Options) ?
 		$"// Skipped invalid member name: {fallbackItem.Key}" :
-		$"public string {fallbackItem.Key} => stringLocalizer[\"{fallbackItem.Key}\"];";
+		$"public string {fallbackItem.Key.ToValidMemberName().memberName} => stringLocalizer[\"{fallbackItem.Key}\"];";
 
 	private static string GenerateInterfaceMembers(FallBackItem fallbackItem) =>
 		$$"""
 		/// <summary>
 		/// Looks up a localized string similar to {{fallbackItem.Value.ToXmlCommentSafe()}}.
 		/// </summary>
-		string {{fallbackItem.Key}} {get;}
+		string {{fallbackItem.Key.ToValidMemberName().memberName}} {get;}
 		""".NormalizeLineEndings();
 }

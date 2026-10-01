@@ -48,6 +48,11 @@ public class CodeGenTests
 				/// Looks up a localized string similar to Newest.
 				/// </summary>
 				public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} CreateDateDescending => GetString_1030_6("Newest", "NewestDaDK", "NewestDa");
+
+				/// <summary>
+				/// Looks up a localized string similar to Resource With Spaces.
+				/// </summary>
+				public{{(staticMembers ? " static" : string.Empty)}} string{{(nullForgivingOperators ? string.Empty : "?")}} Resource_With_Spaces => GetString_1030_6("Resource With Spaces", "Resource With SpacesDaDK", "Resource With SpacesDa");
 			}
 
 			""".NormalizeLineEndings();

@@ -20,6 +20,7 @@ public sealed class ResourceManagerGenerator : GeneratorBase<GenFileOptions>, IR
 			Helper.Append("//ERROR reading file:");
 			return Helper.GetOutput(GeneratedFileName, Validator);
 		}
+
 		Content = content;
 
 		GeneratedFileName = $"{Options.LocalNamespace}.{Options.ClassName}.g.cs";
@@ -38,7 +39,7 @@ public sealed class ResourceManagerGenerator : GeneratorBase<GenFileOptions>, IR
 	{
 		Helper.GenerateResourceManagerMembers(Options);
 
-		var members = ReadResxFile(Content!);
+		var members = ReadResxFile(Content);
 
 		members?.ForEach(fbi =>
 		{

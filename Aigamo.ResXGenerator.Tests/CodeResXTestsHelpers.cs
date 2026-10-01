@@ -74,6 +74,9 @@ internal static class CodeResXTestsHelpers
 			<data name="CreateDateDescending" xml:space="preserve">
 				<value>Newest{language}</value>
 			</data>
+			<data name="Resource With Spaces" xml:space="preserve">
+				<value>Resource With Spaces{language}</value>
+			</data>
 		</root>
 		""".NormalizeLineEndings();
 
@@ -231,6 +234,9 @@ internal static class CodeResXTestsHelpers
 			</data>
 			<data name="RevisionHidden" xml:space="preserve">
 				<value>This page revision has been hidden.</value>
+			</data>
+			<data name="Resource With Spaces" xml:space="preserve">
+				<value>Resource With Spaces</value>
 			</data>
 		</root>
 		""".NormalizeLineEndings();

@@ -107,19 +107,7 @@ public class StringBuilderGeneratorHelper
 
 	internal (bool valid, bool resourceAccessByName, TypeNameParser.ParsedTypeName? typeName) GenerateMember(FallBackItem fallbackItem, GenFileOptions options, IntegrityValidator validator)
 	{
-		string memberName;
-		bool resourceAccessByName;
-
-		if (RegexDefinitions.ValidMemberNamePattern.IsMatch(fallbackItem.Key))
-		{
-			memberName = fallbackItem.Key;
-			resourceAccessByName = true;
-		}
-		else
-		{
-			memberName = RegexDefinitions.InvalidMemberNameSymbols.Replace(fallbackItem.Key, "_");
-			resourceAccessByName = false;
-		}
+		var (memberName, resourceAccessByName) = fallbackItem.Key.ToValidMemberName();
 
 		if (!validator.ValidateMember(fallbackItem, options, ContainerClassName)) return (false, resourceAccessByName, null);
 

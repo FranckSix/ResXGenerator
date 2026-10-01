@@ -46,6 +46,10 @@ public class GeneratorLocalizerTests
 				/// Looks up a localized string similar to Newest.
 				/// </summary>
 				string CreateDateDescending {get;}
+				/// <summary>
+				/// Looks up a localized string similar to Resource With Spaces.
+				/// </summary>
+				string Resource_With_Spaces {get;}
 			}
 
 			///<summary>
@@ -56,6 +60,7 @@ public class GeneratorLocalizerTests
 			{
 				public string CreateDate => stringLocalizer["CreateDate"];
 				public string CreateDateDescending => stringLocalizer["CreateDateDescending"];
+				public string Resource_With_Spaces => stringLocalizer["Resource With Spaces"];
 			}
 			""".NormalizeLineEndings();
 
@@ -146,6 +151,10 @@ public class GeneratorLocalizerTests
 				/// Looks up a localized string similar to This page revision has been hidden..
 				/// </summary>
 				string RevisionHidden {get;}
+				/// <summary>
+				/// Looks up a localized string similar to Resource With Spaces.
+				/// </summary>
+				string Resource_With_Spaces {get;}
 			}
 
 			///<summary>
@@ -160,6 +169,7 @@ public class GeneratorLocalizerTests
 				public string Locked => stringLocalizer["Locked"];
 				public string NameLanguageHelp => stringLocalizer["NameLanguageHelp"];
 				public string RevisionHidden => stringLocalizer["RevisionHidden"];
+				public string Resource_With_Spaces => stringLocalizer["Resource With Spaces"];
 			}
 			""".NormalizeLineEndings();
 
