@@ -11,7 +11,8 @@ public class GlobalRegisterTests
 {
 	private static void Generate(
 		IGlobalRegisterGenerator generator,
-		bool nullForgivingOperators = false)
+		bool nullForgivingOperators = false,
+		bool internalRegistration = false)
 	{
 		string expected = $$"""
 							// ------------------------------------------------------------------------------
@@ -34,7 +35,7 @@ public class GlobalRegisterTests
 							/// Extension methods for registering ResXGenerator services.
 							///</summary>
 							[GeneratedCode("Aigamo.ResXGenerator", "{{Constants.Version}}")]
-							public static class ResXGeneratorRegistrationExtension
+							{{internalRegistration.InterpolateCondition("internal", "public")}} static class ResXGeneratorRegistrationExtension
 							{
 								///<summary>
 								/// Registers all ResXGenerator services in the specified <see cref="IServiceCollection"/>.
@@ -58,6 +59,7 @@ public class GlobalRegisterTests
 						{
 							EmbeddedFilename = "VocaDb.Web.App_GlobalResources.ActivityEntrySortRuleNames",
 							NullForgivingOperators = nullForgivingOperators,
+							InternalRegistration = internalRegistration,
 						}
 					]),
 				new GenFilesNamespace(
@@ -67,11 +69,13 @@ public class GlobalRegisterTests
 						{
 							EmbeddedFilename = "VocaDb.Web.App_LocalResources.LocalViewResources",
 							NullForgivingOperators = nullForgivingOperators,
+							InternalRegistration = internalRegistration,
 						},
 						new GenFileOptions
 						{
 							EmbeddedFilename = "VocaDb.Web.App_LocalResources.SpecificResources",
 							NullForgivingOperators = nullForgivingOperators,
+							InternalRegistration = internalRegistration,
 						}
 					])
 			]
@@ -93,5 +97,12 @@ public class GlobalRegisterTests
 	{
 		var generator = new LocalizerGlobalRegisterGenerator();
 		Generate(generator, true);
+	}
+
+	[Fact]
+	public void CanRegisterLocalClassInternally()
+	{
+		var generator = new LocalizerGlobalRegisterGenerator();
+		Generate(generator, internalRegistration: true);
 	}
 }

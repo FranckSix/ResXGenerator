@@ -36,6 +36,7 @@ public class SettingsTests
 		globalOptions.StaticClass.Should().Be(true);
 		globalOptions.StaticMembers.Should().Be(true);
 		globalOptions.PublicClass.Should().Be(false);
+		globalOptions.InternalRegistration.Should().Be(false);
 		globalOptions.PartialClass.Should().Be(false);
 		globalOptions.IsValid.Should().Be(true);
 		globalOptions.GenerateCode.Should().Be(false);
@@ -61,6 +62,7 @@ public class SettingsTests
 					ResXGenerator_StaticMembers = "false",
 					ResXGenerator_GenerateCode = "true",
 					ResXGenerator_PublicClass = "true",
+					ResXGenerator_InternalRegistration = "true",
 					ResXGenerator_PartialClass = "true",
 					ResXGenerator_GenerationType = "ResourceManager"
 				},
@@ -80,6 +82,7 @@ public class SettingsTests
 		globalOptions.GenerateCode.Should().Be(true);
 		globalOptions.StaticMembers.Should().Be(false);
 		globalOptions.PublicClass.Should().Be(true);
+		globalOptions.InternalRegistration.Should().Be(true);
 		globalOptions.PartialClass.Should().Be(true);
 		globalOptions.IsValid.Should().Be(true);
 		globalOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
@@ -106,6 +109,7 @@ public class SettingsTests
 		fileOptions.StaticClass.Should().Be(true);
 		fileOptions.StaticMembers.Should().Be(true);
 		fileOptions.PublicClass.Should().Be(false);
+		fileOptions.InternalRegistration.Should().Be(false);
 		fileOptions.PartialClass.Should().Be(false);
 		fileOptions.GenerateCode.Should().Be(false);
 		fileOptions.LocalNamespace.Should().Be("namespace1");
@@ -258,6 +262,7 @@ public class SettingsTests
 					ResXGenerator_StaticClass = "false",
 					ResXGenerator_StaticMembers = "false",
 					ResXGenerator_PublicClass = "true",
+					ResXGenerator_InternalRegistration = "true",
 					ResXGenerator_PartialClass = "true",
 				},
 				fileOptions: null!
@@ -282,6 +287,7 @@ public class SettingsTests
 		fileOptions.StaticClass.Should().Be(false);
 		fileOptions.StaticMembers.Should().Be(false);
 		fileOptions.PublicClass.Should().Be(true);
+		fileOptions.InternalRegistration.Should().Be(true);
 		fileOptions.PartialClass.Should().Be(true);
 		fileOptions.GenerateCode.Should().Be(false);
 		fileOptions.LocalNamespace.Should().Be("namespace1");
@@ -397,6 +403,7 @@ public class SettingsTests
 		public string? RootNamespace { get; init; }
 		public string? ResXGenerator_ClassNamePostfix { get; init; }
 		public string? ResXGenerator_PublicClass { get; init; }
+		public string? ResXGenerator_InternalRegistration { get; init; }
 		public string? ResXGenerator_NullForgivingOperators { get; init; }
 		public string? ResXGenerator_StaticClass { get; init; }
 		public string? ResXGenerator_StaticMembers { get; init; }
@@ -435,6 +442,7 @@ public class SettingsTests
 					"build_property.ResXGenerator_GenerateCode" => ResXGenerator_GenerateCode,
 					"build_property.ResXGenerator_ClassNamePostfix" => ResXGenerator_ClassNamePostfix,
 					"build_property.ResXGenerator_PublicClass" => ResXGenerator_PublicClass,
+					"build_property.ResXGenerator_InternalRegistration" => ResXGenerator_InternalRegistration,
 					"build_property.ResXGenerator_NullForgivingOperators" => ResXGenerator_NullForgivingOperators,
 					"build_property.ResXGenerator_StaticClass" => ResXGenerator_StaticClass,
 					"build_property.ResXGenerator_StaticMembers" => ResXGenerator_StaticMembers,
