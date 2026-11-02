@@ -12,8 +12,10 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 		Init(options);
 		var generatedFileName = $"{options.LocalNamespace}.{options.ClassName}.g.cs";
 
-		Content = options.GroupedFile.MainFile.File.GetText(cancellationToken);
-		if (Content is null) return new GeneratedOutput(options.GroupedFile.MainFile.File.Path, "//ERROR reading file:", []);
+		if (options.GroupedFile.MainFile.File.GetText(cancellationToken) is not { } content)
+			return new GeneratedOutput(options.GroupedFile.MainFile.File.Path, "//ERROR reading file:", []);
+
+		Content = content;
 
 		Validator.ValidateInconsistentNameSpace(Options);
 		Validator.ValidateLocalizationModifiers(Options);
@@ -99,7 +101,7 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 
 	private static string[] GetFormatParameters(string value)
 	{
-		var placeholders = Regex.Matches(value, "\\{(\\d+)\\}");
+		var placeholders = Regex.Matches(value, "\\{(\\d+)\\}", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 		return [.. placeholders.Cast<Match>()
 			.Select(match => int.Parse(match.Groups[1].Value))
 			.Distinct()

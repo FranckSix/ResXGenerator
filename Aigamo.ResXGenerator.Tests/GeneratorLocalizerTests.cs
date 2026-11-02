@@ -10,10 +10,9 @@ namespace Aigamo.ResXGenerator.Tests;
 public class GeneratorLocalizerTests
 {
 	private static void Generate(
-		IResXGenerator generator,
+		LocalizerGenerator generator,
 		bool publicClass = false,
-		bool nullForgivingOperators = false
-	)
+		bool nullForgivingOperators = false)
 	{
 		var expected =
 			$$"""
@@ -79,8 +78,8 @@ public class GeneratorLocalizerTests
 				NullForgivingOperators = nullForgivingOperators
 			}
 		);
-		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.Should().Be(expected);
+		_ = result.ErrorsAndWarnings.Should().BeNullOrEmpty();
+		_ = result.SourceCode.Should().Be(expected);
 	}
 
 	[Fact]
@@ -124,12 +123,13 @@ public class GeneratorLocalizerTests
 				),
 				GenerationType = GenerationType.StringLocalizer,
 				ClassName = "CommonMessages"
-			}
+			},
+			TestContext.Current.CancellationToken
 		);
 
-		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.ReplaceLineEndings().Should().Contain("public string Greeting => stringLocalizer[\"Greeting\"];");
-		result.SourceCode.ReplaceLineEndings().Should().NotContain("public string Greeting(object arg0)");
+		_ = result.ErrorsAndWarnings.Should().BeNullOrEmpty();
+		_ = result.SourceCode.ReplaceLineEndings().Should().Contain("public string Greeting => stringLocalizer[\"Greeting\"];");
+		_ = result.SourceCode.ReplaceLineEndings().Should().NotContain("public string Greeting(object arg0)");
 	}
 
 	[Fact]
@@ -161,18 +161,19 @@ public class GeneratorLocalizerTests
 				GenerationType = GenerationType.StringLocalizer,
 				ClassName = "CommonMessages",
 				GenerateFormatMethods = true
-			}
+			},
+			TestContext.Current.CancellationToken
 		);
 
-		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.ReplaceLineEndings().Should().NotContain("public string Greeting => stringLocalizer[\"Greeting\"];");
-		result.SourceCode.ReplaceLineEndings().Should().Contain("public string Greeting(object arg0) => stringLocalizer[\"Greeting\", arg0];");
-		result.SourceCode.ReplaceLineEndings().Should().NotContain("public string MultiGreeting => stringLocalizer[\"MultiGreeting\"];");
-		result.SourceCode.ReplaceLineEndings().Should().Contain("public string MultiGreeting(object arg0, object arg1) => stringLocalizer[\"MultiGreeting\", arg0, arg1];");
-		result.SourceCode.ReplaceLineEndings().Should().NotContain("string Greeting {get;}");
-		result.SourceCode.ReplaceLineEndings().Should().Contain("string Greeting(object arg0);");
-		result.SourceCode.ReplaceLineEndings().Should().NotContain("string MultiGreeting {get;}");
-		result.SourceCode.ReplaceLineEndings().Should().Contain("string MultiGreeting(object arg0, object arg1);");
+		_ = result.ErrorsAndWarnings.Should().BeNullOrEmpty();
+		_ = result.SourceCode.ReplaceLineEndings().Should().NotContain("public string Greeting => stringLocalizer[\"Greeting\"];");
+		_ = result.SourceCode.ReplaceLineEndings().Should().Contain("public string Greeting(object arg0) => stringLocalizer[\"Greeting\", arg0];");
+		_ = result.SourceCode.ReplaceLineEndings().Should().NotContain("public string MultiGreeting => stringLocalizer[\"MultiGreeting\"];");
+		_ = result.SourceCode.ReplaceLineEndings().Should().Contain("public string MultiGreeting(object arg0, object arg1) => stringLocalizer[\"MultiGreeting\", arg0, arg1];");
+		_ = result.SourceCode.ReplaceLineEndings().Should().NotContain("string Greeting {get;}");
+		_ = result.SourceCode.ReplaceLineEndings().Should().Contain("string Greeting(object arg0);");
+		_ = result.SourceCode.ReplaceLineEndings().Should().NotContain("string MultiGreeting {get;}");
+		_ = result.SourceCode.ReplaceLineEndings().Should().Contain("string MultiGreeting(object arg0, object arg1);");
 	}
 
 	[Fact]
@@ -202,7 +203,7 @@ public class GeneratorLocalizerTests
 			public interface ICommonMessages
 			{
 				/// <summary>
-				/// Looks up a localized string similar to This entry has been deleted. It is still temporarily accessible, but won&#39;t show up in any of the listings..
+				/// Looks up a localized string similar to This entry has been deleted. It is still temporarily accessible, but won't show up in any of the listings..
 				/// </summary>
 				string EntryDeleted {get;}
 				/// <summary>
@@ -210,8 +211,8 @@ public class GeneratorLocalizerTests
 				/// </summary>
 				string EntryMergedTo {get;}
 				/// <summary>
-				/// Looks up a localized string similar to Draft = entry is missing crucial information. This status indicates that you&#39;re requesting additional information to be added or corrected.&lt;br /&gt;
-				/// Finished = The entry has all the necessary information, but it hasn&#39;t been inspected by a trusted user yet.&lt;br /&gt;
+				/// Looks up a localized string similar to Draft = entry is missing crucial information. This status indicates that you're requesting additional information to be added or corrected.&lt;br /&gt;
+				/// Finished = The entry has all the necessary information, but it hasn't been inspected by a trusted user yet.&lt;br /&gt;
 				/// Approved = The entry has been inspected and approved by a trusted user. Approved entries can only be edited by trusted users..
 				/// </summary>
 				string EntryStatusExplanation {get;}
@@ -220,7 +221,7 @@ public class GeneratorLocalizerTests
 				/// </summary>
 				string Locked {get;}
 				/// <summary>
-				/// Looks up a localized string similar to Choose the language for this name. &quot;Original&quot; is the name in original language that isn&#39;t English, for example Japanese. If the original language is English, do not input a name in the &quot;Original&quot; language..
+				/// Looks up a localized string similar to Choose the language for this name. "Original" is the name in original language that isn't English, for example Japanese. If the original language is English, do not input a name in the "Original" language..
 				/// </summary>
 				string NameLanguageHelp {get;}
 				/// <summary>
@@ -264,8 +265,8 @@ public class GeneratorLocalizerTests
 			},
 			TestContext.Current.CancellationToken
 		);
-		result.ErrorsAndWarnings.Should().BeNullOrEmpty();
-		result.SourceCode.Should().Be(expected);
+		_ = result.ErrorsAndWarnings.Should().BeNullOrEmpty();
+		_ = result.SourceCode.Should().Be(expected);
 	}
 
 	[Fact]
@@ -287,12 +288,12 @@ public class GeneratorLocalizerTests
 			TestContext.Current.CancellationToken
 		);
 		var errs = result.ErrorsAndWarnings.ToList();
-		errs.Should().NotBeNull();
-		errs.Should().HaveCount(1);
-		errs[0].Id.Should().Be(Analyser.DuplicateWarning.Id);
-		errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
-		errs[0].GetMessage().Should().Contain("DupKey");
-		errs[0].Location.GetLineSpan().StartLinePosition.Line.Should().Be(5);
+		_ = errs.Should().NotBeNull();
+		_ = errs.Should().HaveCount(1);
+		_ = errs[0].Id.Should().Be(Analyser.DuplicateWarning.Id);
+		_ = errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
+		_ = errs[0].GetMessage().Should().Contain("DupKey");
+		_ = errs[0].Location.GetLineSpan().StartLinePosition.Line.Should().Be(5);
 	}
 
 	[Fact]
@@ -324,12 +325,12 @@ public class GeneratorLocalizerTests
 			TestContext.Current.CancellationToken
 		);
 		var errs = results.ErrorsAndWarnings.ToList();
-		errs.Should().NotBeNull();
-		errs.Should().HaveCount(1);
-		errs[0].Id.Should().Be(Analyser.MemberSameAsClassWarning.Id);
-		errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
-		errs[0].GetMessage().Should().Contain("CommonMessages");
-		errs[0].Location.GetLineSpan().StartLinePosition.Line.Should().Be(2);
+		_ = errs.Should().NotBeNull();
+		_ = errs.Should().HaveCount(1);
+		_ = errs[0].Id.Should().Be(Analyser.MemberSameAsClassWarning.Id);
+		_ = errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
+		_ = errs[0].GetMessage().Should().Contain("CommonMessages");
+		_ = errs[0].Location.GetLineSpan().StartLinePosition.Line.Should().Be(2);
 	}
 
 	[Fact]
@@ -363,12 +364,12 @@ public class GeneratorLocalizerTests
 			TestContext.Current.CancellationToken
 		);
 		var errs = results.ErrorsAndWarnings.ToList();
-		errs.Should().NotBeNull();
-		errs.Should().HaveCount(2);
-		errs[0].Id.Should().Be(Analyser.LocalizerStaticError.Id);
-		errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
-		errs[1].Id.Should().Be(Analyser.LocalizerPartialError.Id);
-		errs[1].Severity.Should().Be(DiagnosticSeverity.Warning);
+		_ = errs.Should().NotBeNull();
+		_ = errs.Should().HaveCount(2);
+		_ = errs[0].Id.Should().Be(Analyser.LocalizerStaticError.Id);
+		_ = errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
+		_ = errs[1].Id.Should().Be(Analyser.LocalizerPartialError.Id);
+		_ = errs[1].Severity.Should().Be(DiagnosticSeverity.Warning);
 	}
 
 	[Fact]
@@ -401,9 +402,9 @@ public class GeneratorLocalizerTests
 			TestContext.Current.CancellationToken
 		);
 		var errs = results.ErrorsAndWarnings.ToList();
-		errs.Should().NotBeNull();
-		errs.Should().HaveCount(1);
-		errs[0].Id.Should().Be(Analyser.LocalizationIncoherentNamespace.Id);
-		errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
+		_ = errs.Should().NotBeNull();
+		_ = errs.Should().HaveCount(1);
+		_ = errs[0].Id.Should().Be(Analyser.LocalizationIncoherentNamespace.Id);
+		_ = errs[0].Severity.Should().Be(DiagnosticSeverity.Warning);
 	}
 }

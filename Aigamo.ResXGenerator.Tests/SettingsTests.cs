@@ -25,22 +25,22 @@ public class SettingsTests
 	public void GlobalDefaults()
 	{
 		var globalOptions = s_globalOptions;
-		globalOptions.ProjectName.Should().Be("project1");
-		globalOptions.RootNamespace.Should().Be("namespace1");
-		globalOptions.ProjectFullPath.Should().Be("project1.csproj");
-		globalOptions.InnerClassName.Should().BeNullOrEmpty();
-		globalOptions.ClassNamePostfix.Should().BeNullOrEmpty();
-		globalOptions.InnerClassInstanceName.Should().BeNullOrEmpty();
-		globalOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.NotGenerated);
-		globalOptions.NullForgivingOperators.Should().Be(false);
-		globalOptions.StaticClass.Should().Be(true);
-		globalOptions.StaticMembers.Should().Be(true);
-		globalOptions.PublicClass.Should().Be(false);
-		globalOptions.InternalRegistration.Should().Be(false);
-		globalOptions.PartialClass.Should().Be(false);
-		globalOptions.IsValid.Should().Be(true);
-		globalOptions.GenerateCode.Should().Be(false);
-		globalOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
+		_ = globalOptions.ProjectName.Should().Be("project1");
+		_ = globalOptions.RootNamespace.Should().Be("namespace1");
+		_ = globalOptions.ProjectFullPath.Should().Be("project1.csproj");
+		_ = globalOptions.InnerClassName.Should().BeNullOrEmpty();
+		_ = globalOptions.ClassNamePostfix.Should().BeNullOrEmpty();
+		_ = globalOptions.InnerClassInstanceName.Should().BeNullOrEmpty();
+		_ = globalOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.NotGenerated);
+		_ = globalOptions.NullForgivingOperators.Should().Be(false);
+		_ = globalOptions.StaticClass.Should().Be(true);
+		_ = globalOptions.StaticMembers.Should().Be(true);
+		_ = globalOptions.PublicClass.Should().Be(false);
+		_ = globalOptions.InternalRegistration.Should().Be(false);
+		_ = globalOptions.PartialClass.Should().Be(false);
+		_ = globalOptions.IsValid.Should().Be(true);
+		_ = globalOptions.GenerateCode.Should().Be(false);
+		_ = globalOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
 	}
 
 	[Fact]
@@ -70,22 +70,22 @@ public class SettingsTests
 			),
 			TestContext.Current.CancellationToken
 		);
-		globalOptions.RootNamespace.Should().Be("namespace1");
-		globalOptions.ProjectFullPath.Should().Be("project1.csproj");
-		globalOptions.ProjectName.Should().Be("project1");
-		globalOptions.InnerClassName.Should().Be("test1");
-		globalOptions.InnerClassInstanceName.Should().Be("test2");
-		globalOptions.ClassNamePostfix.Should().Be("test3");
-		globalOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.Public);
-		globalOptions.NullForgivingOperators.Should().Be(true);
-		globalOptions.StaticClass.Should().Be(false);
-		globalOptions.GenerateCode.Should().Be(true);
-		globalOptions.StaticMembers.Should().Be(false);
-		globalOptions.PublicClass.Should().Be(true);
-		globalOptions.InternalRegistration.Should().Be(true);
-		globalOptions.PartialClass.Should().Be(true);
-		globalOptions.IsValid.Should().Be(true);
-		globalOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
+		_ = globalOptions.RootNamespace.Should().Be("namespace1");
+		_ = globalOptions.ProjectFullPath.Should().Be("project1.csproj");
+		_ = globalOptions.ProjectName.Should().Be("project1");
+		_ = globalOptions.InnerClassName.Should().Be("test1");
+		_ = globalOptions.InnerClassInstanceName.Should().Be("test2");
+		_ = globalOptions.ClassNamePostfix.Should().Be("test3");
+		_ = globalOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.Public);
+		_ = globalOptions.NullForgivingOperators.Should().Be(true);
+		_ = globalOptions.StaticClass.Should().Be(false);
+		_ = globalOptions.GenerateCode.Should().Be(true);
+		_ = globalOptions.StaticMembers.Should().Be(false);
+		_ = globalOptions.PublicClass.Should().Be(true);
+		_ = globalOptions.InternalRegistration.Should().Be(true);
+		_ = globalOptions.PartialClass.Should().Be(true);
+		_ = globalOptions.IsValid.Should().Be(true);
+		_ = globalOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
 	}
 
 	[Fact]
@@ -102,23 +102,23 @@ public class SettingsTests
 			),
 			globalOptions: s_globalOptions
 		);
-		fileOptions.InnerClassName.Should().BeNullOrEmpty();
-		fileOptions.InnerClassInstanceName.Should().BeNullOrEmpty();
-		fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.NotGenerated);
-		fileOptions.NullForgivingOperators.Should().Be(false);
-		fileOptions.StaticClass.Should().Be(true);
-		fileOptions.StaticMembers.Should().Be(true);
-		fileOptions.PublicClass.Should().Be(false);
-		fileOptions.InternalRegistration.Should().Be(false);
-		fileOptions.PartialClass.Should().Be(false);
-		fileOptions.GenerateCode.Should().Be(false);
-		fileOptions.LocalNamespace.Should().Be("namespace1");
-		fileOptions.CustomToolNamespace.Should().BeNullOrEmpty();
-		fileOptions.GroupedFile.MainFile.File.Path.Should().Be("Path1.resx");
-		fileOptions.ClassName.Should().Be("Path1");
-		fileOptions.SkipFile.Should().Be(false);
-		fileOptions.IsValid.Should().Be(true);
-		fileOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
+		_ = fileOptions.InnerClassName.Should().BeNullOrEmpty();
+		_ = fileOptions.InnerClassInstanceName.Should().BeNullOrEmpty();
+		_ = fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.NotGenerated);
+		_ = fileOptions.NullForgivingOperators.Should().Be(false);
+		_ = fileOptions.StaticClass.Should().Be(true);
+		_ = fileOptions.StaticMembers.Should().Be(true);
+		_ = fileOptions.PublicClass.Should().Be(false);
+		_ = fileOptions.InternalRegistration.Should().Be(false);
+		_ = fileOptions.PartialClass.Should().Be(false);
+		_ = fileOptions.GenerateCode.Should().Be(false);
+		_ = fileOptions.LocalNamespace.Should().Be("namespace1");
+		_ = fileOptions.CustomToolNamespace.Should().BeNullOrEmpty();
+		_ = fileOptions.GroupedFile.MainFile.File.Path.Should().Be("Path1.resx");
+		_ = fileOptions.ClassName.Should().Be("Path1");
+		_ = fileOptions.SkipFile.Should().Be(false);
+		_ = fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
 	}
 
 	[Theory]
@@ -135,7 +135,7 @@ public class SettingsTests
 	public void FileSettings_RespectsEmptyRootNamespace(
 		string msBuildProjectFullPath,
 		string mainFile,
-		string rootNamespace,
+		string? rootNamespace,
 		string expectedLocalNamespace,
 		string expectedEmbeddedFilename
 	)
@@ -162,22 +162,22 @@ public class SettingsTests
 				TestContext.Current.CancellationToken
 			)
 		);
-		fileOptions.InnerClassName.Should().BeNullOrEmpty();
-		fileOptions.InnerClassInstanceName.Should().BeNullOrEmpty();
-		fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.NotGenerated);
-		fileOptions.NullForgivingOperators.Should().Be(false);
-		fileOptions.StaticClass.Should().Be(true);
-		fileOptions.StaticMembers.Should().Be(true);
-		fileOptions.PublicClass.Should().Be(false);
-		fileOptions.PartialClass.Should().Be(false);
-		fileOptions.GenerateCode.Should().Be(false);
-		fileOptions.LocalNamespace.Should().Be(expectedLocalNamespace);
-		fileOptions.CustomToolNamespace.Should().BeNullOrEmpty();
-		fileOptions.GroupedFile.MainFile.File.Path.Should().Be(mainFile);
-		fileOptions.EmbeddedFilename.Should().Be(expectedEmbeddedFilename);
-		fileOptions.ClassName.Should().Be("Path1");
-		fileOptions.IsValid.Should().Be(true);
-		fileOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
+		_ = fileOptions.InnerClassName.Should().BeNullOrEmpty();
+		_ = fileOptions.InnerClassInstanceName.Should().BeNullOrEmpty();
+		_ = fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.NotGenerated);
+		_ = fileOptions.NullForgivingOperators.Should().Be(false);
+		_ = fileOptions.StaticClass.Should().Be(true);
+		_ = fileOptions.StaticMembers.Should().Be(true);
+		_ = fileOptions.PublicClass.Should().Be(false);
+		_ = fileOptions.PartialClass.Should().Be(false);
+		_ = fileOptions.GenerateCode.Should().Be(false);
+		_ = fileOptions.LocalNamespace.Should().Be(expectedLocalNamespace);
+		_ = fileOptions.CustomToolNamespace.Should().BeNullOrEmpty();
+		_ = fileOptions.GroupedFile.MainFile.File.Path.Should().Be(mainFile);
+		_ = fileOptions.EmbeddedFilename.Should().Be(expectedEmbeddedFilename);
+		_ = fileOptions.ClassName.Should().Be("Path1");
+		_ = fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
 	}
 
 	[Fact]
@@ -194,8 +194,8 @@ public class SettingsTests
 			),
 			globalOptions: s_globalOptions
 		);
-		fileOptions.ClassName.Should().Be("Path1test1");
-		fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.ClassName.Should().Be("Path1test1");
+		_ = fileOptions.IsValid.Should().Be(true);
 	}
 
 	[Fact]
@@ -227,21 +227,21 @@ public class SettingsTests
 			),
 			globalOptions: s_globalOptions
 		);
-		fileOptions.InnerClassName.Should().Be("test1");
-		fileOptions.InnerClassInstanceName.Should().Be("test2");
-		fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.Public);
-		fileOptions.NullForgivingOperators.Should().Be(false);
-		fileOptions.StaticClass.Should().Be(false);
-		fileOptions.StaticMembers.Should().Be(false);
-		fileOptions.PublicClass.Should().Be(true);
-		fileOptions.PartialClass.Should().Be(true);
-		fileOptions.IsValid.Should().Be(true);
-		fileOptions.GenerateCode.Should().Be(true);
-		fileOptions.LocalNamespace.Should().Be("namespace1");
-		fileOptions.CustomToolNamespace.Should().Be("ns1");
-		fileOptions.GroupedFile.MainFile.File.Path.Should().Be("Path1.resx");
-		fileOptions.ClassName.Should().Be("Path1");
-		fileOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
+		_ = fileOptions.InnerClassName.Should().Be("test1");
+		_ = fileOptions.InnerClassInstanceName.Should().Be("test2");
+		_ = fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.Public);
+		_ = fileOptions.NullForgivingOperators.Should().Be(false);
+		_ = fileOptions.StaticClass.Should().Be(false);
+		_ = fileOptions.StaticMembers.Should().Be(false);
+		_ = fileOptions.PublicClass.Should().Be(true);
+		_ = fileOptions.PartialClass.Should().Be(true);
+		_ = fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.GenerateCode.Should().Be(true);
+		_ = fileOptions.LocalNamespace.Should().Be("namespace1");
+		_ = fileOptions.CustomToolNamespace.Should().Be("ns1");
+		_ = fileOptions.GroupedFile.MainFile.File.Path.Should().Be("Path1.resx");
+		_ = fileOptions.ClassName.Should().Be("Path1");
+		_ = fileOptions.GenerationType.Should().Be(GenerationType.ResourceManager);
 	}
 
 	[Fact]
@@ -280,21 +280,21 @@ public class SettingsTests
 			),
 			globalOptions: globalOptions
 		);
-		fileOptions.InnerClassName.Should().Be("test1");
-		fileOptions.InnerClassInstanceName.Should().Be("test2");
-		fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.Public);
-		fileOptions.NullForgivingOperators.Should().Be(true);
-		fileOptions.StaticClass.Should().Be(false);
-		fileOptions.StaticMembers.Should().Be(false);
-		fileOptions.PublicClass.Should().Be(true);
-		fileOptions.InternalRegistration.Should().Be(true);
-		fileOptions.PartialClass.Should().Be(true);
-		fileOptions.GenerateCode.Should().Be(false);
-		fileOptions.LocalNamespace.Should().Be("namespace1");
-		fileOptions.CustomToolNamespace.Should().BeNullOrEmpty();
-		fileOptions.GroupedFile.MainFile.File.Path.Should().Be("Path1.resx");
-		fileOptions.ClassName.Should().Be("Path1test3");
-		fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.InnerClassName.Should().Be("test1");
+		_ = fileOptions.InnerClassInstanceName.Should().Be("test2");
+		_ = fileOptions.InnerClassVisibility.Should().Be(InnerClassVisibility.Public);
+		_ = fileOptions.NullForgivingOperators.Should().Be(true);
+		_ = fileOptions.StaticClass.Should().Be(false);
+		_ = fileOptions.StaticMembers.Should().Be(false);
+		_ = fileOptions.PublicClass.Should().Be(true);
+		_ = fileOptions.InternalRegistration.Should().Be(true);
+		_ = fileOptions.PartialClass.Should().Be(true);
+		_ = fileOptions.GenerateCode.Should().Be(false);
+		_ = fileOptions.LocalNamespace.Should().Be("namespace1");
+		_ = fileOptions.CustomToolNamespace.Should().BeNullOrEmpty();
+		_ = fileOptions.GroupedFile.MainFile.File.Path.Should().Be("Path1.resx");
+		_ = fileOptions.ClassName.Should().Be("Path1test3");
+		_ = fileOptions.IsValid.Should().Be(true);
 	}
 
 	[Fact]
@@ -317,9 +317,9 @@ public class SettingsTests
 			globalOptions: s_globalOptions
 		);
 
-		fileOptions.LocalNamespace.Should().Be("namespace1");
-		fileOptions.SkipFile.Should().Be(true);
-		fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.LocalNamespace.Should().Be("namespace1");
+		_ = fileOptions.SkipFile.Should().Be(true);
+		_ = fileOptions.IsValid.Should().Be(true);
 	}
 
 	[Fact]
@@ -341,9 +341,9 @@ public class SettingsTests
 			),
 			globalOptions: s_globalOptions
 		);
-		fileOptions.LocalNamespace.Should().Be("namespace1");
-		fileOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
-		fileOptions.IsValid.Should().Be(true);
+		_ = fileOptions.LocalNamespace.Should().Be("namespace1");
+		_ = fileOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
+		_ = fileOptions.IsValid.Should().Be(true);
 	}
 
 	[Fact]
@@ -363,9 +363,9 @@ public class SettingsTests
 			 TestContext.Current.CancellationToken
 		 );
 
-		globalOptions.RootNamespace.Should().Be("namespace1");
-		globalOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
-		globalOptions.IsValid.Should().Be(true);
+		_ = globalOptions.RootNamespace.Should().Be("namespace1");
+		_ = globalOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
+		_ = globalOptions.IsValid.Should().Be(true);
 	}
 
 	[Fact]
@@ -387,11 +387,34 @@ public class SettingsTests
 			 TestContext.Current.CancellationToken
 		 );
 
-		globalOptions.RootNamespace.Should().Be("namespace1");
-		globalOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
-		globalOptions.IsValid.Should().Be(true);
-		globalOptions.StaticClass.Should().Be(false);
-		globalOptions.StaticMembers.Should().Be(false);
+		_ = globalOptions.RootNamespace.Should().Be("namespace1");
+		_ = globalOptions.GenerationType.Should().Be(GenerationType.StringLocalizer);
+		_ = globalOptions.IsValid.Should().Be(true);
+		_ = globalOptions.StaticClass.Should().Be(false);
+		_ = globalOptions.StaticMembers.Should().Be(false);
+	}
+
+	[Fact]
+	public void TargetPath_IsUsedForLocalNamespace()
+	{
+		var fileOptions = GenFileOptions.Select(
+			file: new GroupedAdditionalFile(
+				mainFile: new AdditionalTextWithHash(new AdditionalTextStub("Other/Strings.resx"), Guid.NewGuid()),
+				subFiles: []
+			),
+			options: new AnalyzerConfigOptionsProviderStub(
+				globalOptions: null!,
+				fileOptions: new AnalyzerConfigOptionsStub
+				{
+					TargetPath = "Resources\\Strings.resx"
+				}
+			),
+			globalOptions: s_globalOptions
+		);
+
+		_ = fileOptions.LocalNamespace.Should().Be("namespace1.Resources");
+		_ = fileOptions.ClassName.Should().Be("Strings");
+		_ = fileOptions.IsValid.Should().Be(true);
 	}
 
 	private class AnalyzerConfigOptionsStub : AnalyzerConfigOptions
