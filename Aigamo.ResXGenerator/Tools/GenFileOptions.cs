@@ -13,6 +13,8 @@ public readonly record struct GenFileOptions
 	public bool StaticClass { get; init; }
 	public bool NullForgivingOperators { get; init; }
 	public bool PublicClass { get; init; }
+	public bool GenerateFormatMethods { get; init; }
+	public bool InternalRegistration { get; init; }
 	public string ClassName { get; init; }
 	public string? CustomToolNamespace { get; init; }
 	public string LocalNamespace { get; init; }
@@ -86,6 +88,8 @@ public readonly record struct GenFileOptions
 
 		NullForgivingOperators = globalOptions.NullForgivingOperators;
 
+		InternalRegistration = globalOptions.InternalRegistration;
+
 		PublicClass =
 			options.TryGetValue("build_metadata.EmbeddedResource.PublicClass", out var perFilePublicClassSwitch) &&
 			perFilePublicClassSwitch is { Length: > 0 }
@@ -97,6 +101,12 @@ public readonly record struct GenFileOptions
 			perFileStaticClassSwitch is { Length: > 0 }
 				? !perFileStaticClassSwitch.Equals("false", StringComparison.OrdinalIgnoreCase)
 				: globalOptions.StaticClass;
+
+		GenerateFormatMethods =
+			options.TryGetValue("build_metadata.EmbeddedResource.GenerateFormatMethods", out var generateFormatMethodsSwitch) &&
+			generateFormatMethodsSwitch is { Length: > 0 }
+				? generateFormatMethodsSwitch.Equals("true", StringComparison.OrdinalIgnoreCase)
+				: globalOptions.GenerateFormatMethods;
 
 		StaticMembers =
 			options.TryGetValue("build_metadata.EmbeddedResource.StaticMembers", out var staticMembersSwitch) &&

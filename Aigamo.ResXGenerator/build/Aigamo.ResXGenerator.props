@@ -10,6 +10,7 @@
 		<CompilerVisibleProperty Include="RootNamespace" />
 		<CompilerVisibleProperty Include="CustomToolNamespace" />
 		<CompilerVisibleProperty Include="ResXGenerator_PublicClass" />
+		<CompilerVisibleProperty Include="ResXGenerator_InternalRegistration" />
 		<CompilerVisibleProperty Include="ResXGenerator_NullForgivingOperators" />
 		<CompilerVisibleProperty Include="ResXGenerator_StaticClass" />
 		<CompilerVisibleProperty Include="ResXGenerator_StaticMembers" />
@@ -20,6 +21,7 @@
 		<CompilerVisibleProperty Include="ResXGenerator_InnerClassInstanceName" />
 		<CompilerVisibleProperty Include="ResXGenerator_GenerateCode" />
 		<CompilerVisibleProperty Include="ResXGenerator_GenerationType" />
+		<CompilerVisibleProperty Include="ResXGenerator_GenerateFormatMethods" />
 		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="Link" />
 		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="TargetPath" />
 		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="CustomToolNamespace" />
@@ -36,6 +38,7 @@
 		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="GenerationType" />
 		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="LogicalName" />
 		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="ManifestResourceName" />
+		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="GenerateFormatMethods" />
 	</ItemGroup>
 
 </Project>

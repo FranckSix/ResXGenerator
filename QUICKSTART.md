@@ -8,6 +8,7 @@
 |PartialClass|ResXGenerator_PartialClass|- true<br>- **false**|All except StringLocalizer|
 |StaticMembers|ResXGenerator_StaticMembers|- **true**<br>- false|All except StringLocalizer|
 |NullForgivingOperators|ResXGenerator_NullForgivingOperators|- true<br>- **false**|All except StringLocalizer|
+|InternalRegistration|ResXGenerator_InternalRegistration|- true<br>- **false**|StringLocalizer only|
 |InnerClassVisibility|ResXGenerator_InnerClassVisibility|-public<br>- internal<br>- private<br>- protected<br>-  sameasouter<br>- **notgenerated**|All except StringLocalizer|
 |InnerClassName|ResXGenerator_InnerClassName|Any valid C# identifier|
 |InnerClassInstanceName|ResXGenerator_InnerClassInstanceName|Any valid C# identifier|
@@ -15,5 +16,6 @@
 |GenerateCode*|ResXGenerator_GenerateCode|- true<br>- **false**|All except StringLocalizer|
 |CustomToolNamespace|ResXGenerator_CustomToolNamespace|Any valid C# namespace|All except StringLocalizer|
 |SkipFile| |- true<br>- **false**|All|
+|GenerateFormatMethods|ResXGenerator_GenerateFormatMethods|- true<br>- **false**|StringLocalizer only|
 
 \* *Could be replaced by the option GenerationType with the value CodeGeneration*

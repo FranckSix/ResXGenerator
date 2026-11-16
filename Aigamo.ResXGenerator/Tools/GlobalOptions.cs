@@ -16,6 +16,8 @@ public sealed record GlobalOptions // this must be a record or implement IEquata
 	public bool StaticClass { get; }
 	public bool NullForgivingOperators { get; }
 	public bool PublicClass { get; }
+	public bool GenerateFormatMethods { get; }
+	public bool InternalRegistration { get; }
 	public string ClassNamePostfix { get; }
 	public bool GenerateCode { get; }
 	public GenerationType GenerationType { get; }
@@ -49,6 +51,11 @@ public sealed record GlobalOptions // this must be a record or implement IEquata
 			publicClassSwitch is { Length: > 0 } &&
 			publicClassSwitch.Equals("true", StringComparison.OrdinalIgnoreCase);
 
+		InternalRegistration =
+			options.TryGetValue("build_property.ResXGenerator_InternalRegistration", out var internalRegistrationSwitch) &&
+			internalRegistrationSwitch is { Length: > 0 } &&
+			internalRegistrationSwitch.Equals("true", StringComparison.OrdinalIgnoreCase);
+
 		NullForgivingOperators =
 			options.TryGetValue("build_property.ResXGenerator_NullForgivingOperators", out var nullForgivingOperatorsSwitch) &&
 			nullForgivingOperatorsSwitch is { Length: > 0 } &&
@@ -78,6 +85,11 @@ public sealed record GlobalOptions // this must be a record or implement IEquata
 				staticMembersSwitch is { Length: > 0 } &&
 				staticMembersSwitch.Equals("false", StringComparison.OrdinalIgnoreCase)
 			);
+
+		GenerateFormatMethods =
+			options.TryGetValue("build_property.ResXGenerator_GenerateFormatMethods", out var generateFormatMethodsSwitch) &&
+			generateFormatMethodsSwitch is { Length: > 0 } &&
+			generateFormatMethodsSwitch.Equals("true", StringComparison.OrdinalIgnoreCase);
 
 		PartialClass =
 			options.TryGetValue("build_property.ResXGenerator_PartialClass", out var partialClassSwitch) &&

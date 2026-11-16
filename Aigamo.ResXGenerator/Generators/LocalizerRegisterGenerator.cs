@@ -33,7 +33,7 @@ public sealed class LocalizerRegisterGenerator : GeneratorBase<GenFilesNamespace
 				/// Extension methods for registering {{options.SafeNamespaceName}} services.
 				///</summary>
 				{{Constants.GeneratedCodeAttribute}}
-				public static class {{options.SafeNamespaceName}}RegistrationExtensions
+				{{Options.InternalRegistration.InterpolateCondition("internal", "public")}} static class {{options.SafeNamespaceName}}RegistrationExtensions
 				{
 					///<summary>
 					/// Registers all {{options.SafeNamespaceName}} services in the specified <see cref="IServiceCollection"/>.

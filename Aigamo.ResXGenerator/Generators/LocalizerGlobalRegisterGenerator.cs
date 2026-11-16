@@ -27,7 +27,7 @@ public sealed class LocalizerGlobalRegisterGenerator : GeneratorBase<ImmutableAr
 			/// Extension methods for registering ResXGenerator services.
 			///</summary>
 			{{Constants.GeneratedCodeAttribute}}
-			public static class ResXGeneratorRegistrationExtension
+			{{Options.All(f => f.InternalRegistration).InterpolateCondition("internal", "public")}} static class ResXGeneratorRegistrationExtension
 			{
 				///<summary>
 				/// Registers all ResXGenerator services in the specified <see cref="IServiceCollection"/>.

@@ -199,6 +199,28 @@ instead of
 public static string? CreateDate => ResourceManager.GetString(nameof(CreateDate), CultureInfo);
 ```
 
+### InternalRegistration (globally)
+
+With `GenerationType` [StringLocalizer](#using-istringlocalizer), every project gets the same registration class,
+`ResXGenerator.Registration.ResXGeneratorRegistrationExtension`. When such a project references another one that
+generates it too, both classes are visible and the call to `UsingResXGenerator()` is ambiguous (CS0121).
+
+```xml
+<PropertyGroup>
+	<ResXGenerator_InternalRegistration>true</ResXGenerator_InternalRegistration>
+</PropertyGroup>
+```
+
+By setting `ResXGenerator_InternalRegistration` to `true` in the referenced project, ResXGenerator generates its
+registration classes as `internal`. That project then offers its registration through a method of its own:
+
+```cs
+public static class ServiceCollectionExtensions
+{
+	public static IServiceCollection AddSharedResources(this IServiceCollection services) => services.UsingResXGenerator();
+}
+```
+
 ### Non-static classes (per file or globally)
 
 To use generated resources with [Microsoft.Extensions.Localization](https://docs.microsoft.com/en-us/dotnet/core/extensions/localization) `IStringLocalizer<T>` and resource manager, the resolved type cannot be a static class. You can disable default behavior per file by setting the value to `false`.
@@ -609,6 +631,50 @@ builder.Services
 
 You can now use dependency injection to get your resource classes.
 All interfaces are in the same namespace as their corresponding resource file (or the configured namespace).
+
+For resources that contain format items such as `{0}`, `{1:g}` or `{2,-10}`, you can optionally generate a method with one parameter per format item instead of a property. Enable this with the `ResXGenerator_GenerateFormatMethods` MSBuild property or the per-file `GenerateFormatMethods` metadata.
+
+```xml
+<PropertyGroup>
+	<ResXGenerator_GenerateFormatMethods>true</ResXGenerator_GenerateFormatMethods>
+</PropertyGroup>
+```
+
+```xml
+<ItemGroup>
+	<EmbeddedResource Update="Resources\Messages.resx" GenerateFormatMethods="true" />
+</ItemGroup>
+```
+
+```xml
+<ItemGroup>
+	<EmbeddedResource Update="Resources\Messages.resx">
+		<GenerateFormatMethods>true</GenerateFormatMethods>
+	</EmbeddedResource>
+</ItemGroup>
+```
+
+With this enabled, a resource like:
+
+```xml
+<data name="HiUser" xml:space="preserve">
+	<value>Hi, {0}!</value>
+</data>
+```
+
+will generate:
+
+```csharp
+public string HiUser(object arg0) => stringLocalizer["HiUser", arg0];
+```
+
+instead of
+
+```csharp
+public string HiUser => stringLocalizer["HiUser"];
+```
+
+Every index up to the highest one gets a parameter, so `Only {1}` generates `(object arg0, object arg1)`. Escaped braces such as `{{0}}` are not format items. Resources without format items are still generated as properties.
 
 ## References
 
