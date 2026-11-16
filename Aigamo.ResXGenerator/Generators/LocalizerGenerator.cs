@@ -50,7 +50,7 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 				/// <summary>
 				/// Looks up a localized string similar to {{fallbackItem.Value.ToXmlCommentSafe()}}.
 				/// </summary>
-				string {{fallbackItem.Key}}({{string.Join(", ", parameters.Select(p => $"object {p}"))}});
+				string {{fallbackItem.Key.ToValidMemberName().memberName}}({{string.Join(", ", parameters.Select(p => $"object {p}"))}});
 				""";
 		}
 
@@ -58,24 +58,24 @@ public sealed class LocalizerGenerator : GeneratorBase<GenFileOptions>, IResXGen
 			/// <summary>
 			/// Looks up a localized string similar to {{fallbackItem.Value.ToXmlCommentSafe()}}.
 			/// </summary>
-			string {{fallbackItem.Key}} {get;}
+			string {{fallbackItem.Key.ToValidMemberName().memberName}} {get;}
 			""";
 	}
 
 	private string GenerateMembers(FallBackItem fallbackItem)
 	{
 		if (!Validator.ValidateMember(fallbackItem, Options))
-			return $"// Skipped invalid member name: {fallbackItem.Key}";
+			return $"// Skipped invalid member name: {fallbackItem.Key.ToValidMemberName().memberName}";
 
 		var parameters = GetFormatParameters(fallbackItem.Value);
 		if (parameters.Length > 0 && Options.GenerateFormatMethods)
 		{
 			return $$"""
-				public string {{fallbackItem.Key}}({{string.Join(", ", parameters.Select(p => $"object {p}"))}}) => stringLocalizer["{{fallbackItem.Key}}", {{string.Join(", ", parameters)}}];
+				public string {{fallbackItem.Key.ToValidMemberName().memberName}}({{string.Join(", ", parameters.Select(p => $"object {p}"))}}) => stringLocalizer["{{fallbackItem.Key}}", {{string.Join(", ", parameters)}}];
 				""";
 		}
 
-		return $"public string {fallbackItem.Key} => stringLocalizer[\"{fallbackItem.Key}\"];";
+		return $"public string {fallbackItem.Key.ToValidMemberName().memberName} => stringLocalizer[\"{fallbackItem.Key}\"];";
 	}
 
 	//Note with StringLocalization injection work with singleton or transient
